@@ -8,6 +8,7 @@ namespace RestAPI_XF1Online.Data
 
         IEnumerable<Championship> GetAllChampionships();
         Championship GetChampionshipById(string id);
+        Championship GetActiveChampionship();
         void CreateChampionship(Championship championship);
         void DeleteAllChampionships();
 

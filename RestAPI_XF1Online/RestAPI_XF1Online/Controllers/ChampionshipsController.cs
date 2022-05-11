@@ -20,9 +20,17 @@ namespace RestAPI_XF1Online.Controllers
             _mapper = mapper;
         }
 
+        // GET: championships/active
+        [HttpGet("active")]
+        public ActionResult<ChampionshipReadDto> GetActiveChampionship()
+        {
+            var championship = _repository.GetActiveChampionship();
+            return Ok(_mapper.Map<ChampionshipReadDto>(championship));
+        }
+
         // GET: championships/{id}
         [HttpGet("{id}", Name ="GetChampionshipById")]
-        public ActionResult<IEnumerable<ChampionshipReadDto>> GetChampionshipById(string id)
+        public ActionResult<ChampionshipReadDto> GetChampionshipById(string id)
         {
             var championship = _repository.GetChampionshipById(id);
             return Ok(_mapper.Map<ChampionshipReadDto>(championship));

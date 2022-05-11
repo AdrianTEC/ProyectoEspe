@@ -24,6 +24,8 @@ namespace RestAPI_XF1Online.Models
         [MaxLength(1000)]
         public string? Description {get; set;}
 
+        public bool IsActive {get; set;}
+
         public List<Race> Races {get; set;}
 
     }

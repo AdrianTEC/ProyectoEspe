@@ -23,8 +23,19 @@ namespace RestAPI_XF1Online.Data
                 throw new ArgumentNullException(nameof(championship));
             }
 
+            DeactivateChampionships();
             championship.Id = CreateRandomChampionshipKey();
+            championship.IsActive = true;
             _context.Championships.Add(championship);
+        }
+
+        private void DeactivateChampionships()
+        {
+            var championship = _context.Championships.FirstOrDefault(c => c.IsActive == true);
+            if(championship == null)
+                return;
+            championship.IsActive = false;
+            SaveChanges();
         }
 
         private string CreateRandomChampionshipKey()
@@ -54,6 +65,11 @@ namespace RestAPI_XF1Online.Data
         public Championship GetChampionshipById(string id)
         {
             return _context.Championships.FirstOrDefault(c => c.Id == id);
+        }
+
+        public Championship GetActiveChampionship()
+        {
+            return _context.Championships.FirstOrDefault(c => c.IsActive == true);
         }
 
         public IEnumerable<Race> GetAllRaces()
