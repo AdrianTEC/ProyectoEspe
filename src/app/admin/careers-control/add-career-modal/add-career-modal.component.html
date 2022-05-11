@@ -1,0 +1,79 @@
+<div class="title">
+    Crear un Carrera
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Nombre</div>
+    <input class="inputBackground" style="width: 80%;" #name>
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">País</div>
+
+    <mat-select style="color: var(--SecondLetters) !important;" class="inputBackground" style="width: 80%;" #country>
+        <mat-option style="color: var(--SecondLetters) !important;" *ngFor="let country of countries" [value]="country">
+            {{country}}</mat-option>
+    </mat-select>
+
+</div>
+
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Pista</div>
+    <input class="inputBackground" style="width: 80%;" #trackName>
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Campeonato</div>
+    <mat-select style="color: var(--SecondLetters) !important;" class="inputBackground" style="width: 80%;"
+        #championshipId>
+        <mat-option style="color: var(--SecondLetters) !important;" *ngFor="let championship of championships"
+            [value]="championship.id">
+            {{championship.name}}</mat-option>
+    </mat-select>
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Fecha de inicio</div>
+    <input matInput class="inputBackground" [matDatepicker]="picker" style="width: 20%;" readonly #beginDate>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Fecha de finalización</div>
+
+    <input matInput class="inputBackground" [matDatepicker]="picker2" style="width: 20%;" readonly #endDate>
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Hora de Inicio</div>
+    <input class="inputBackground" style="width: 20%;" #beginHour type="time" matInput name="week" min="09:00"
+        max="18:00">
+</div>
+
+<div class="textAndInput">
+    <div class="text" style="width: 14%;">Hora de Cierre</div>
+    <input class="inputBackground" style="width: 20%;" #endHour type="time" matInput name="week" min="09:00"
+        max="18:00">
+</div>
+
+
+
+<div class="buttonContainer">
+    <div class="doneButton" (click)="submit(
+        {   name: name.value,
+            startingDate:beginDate.value,
+            finishingDate:endDate.value,
+            startingTime:beginHour.value,
+            finishingTime:endHour.value,
+            trackName:trackName.value,
+            country:   country.value,
+            championshipId:championshipId.value,
+            actualState:'',
+            id:0})">
+        <div class="text" style="color: white; user-select:none">Crear Carrera</div>
+    </div>
+</div>

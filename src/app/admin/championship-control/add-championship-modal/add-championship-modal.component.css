@@ -1,0 +1,66 @@
+.title{
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    font-size: clamp(37px, 2vw, 3vw);
+    color: var(--SecondLetters);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+}
+.textAndInput{
+    display: flex;
+    width: 100%;
+    margin: 13px 0px;
+    padding: 0 5px;
+    height: 30px;
+}
+.text{
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    font-size: clamp(13px, 1vw, 1vw);
+    color: var(--SecondLetters);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+}
+.inputBackground{
+    background-color: #F1F5F5;
+    height: 100%;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    color: var(--SecondLetters);
+    font-weight: bolder;
+}   
+.inputBackground:focus-visible{
+    outline: #264d49 auto 1px;
+}
+
+.description{
+    font-family: 'Poppins', sans-serif;
+
+    color: var(--SecondLetters);
+    font-weight: bolder;
+}
+.description:focus-visible{
+    outline: #264d49 auto 1px;
+}
+
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+.doneButton{
+    padding: 20px;
+    background-color: var(--SecondLetters);
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    transition: 200ms;
+}
+.doneButton:hover{
+    cursor: pointer;
+    filter: invert(0.2);
+    transform: translate(0,-5px);
+    transition: 200ms;
+}
