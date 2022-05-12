@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddChampionshipModalComponent } from './add-championship-modal/add-championship-modal.component';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
-import { Championship } from 'src/app/models/models';
+import {Championship} from 'src/app/models/models';
 import * as moment from 'moment';
+import {TopLeagueModalComponent} from './top-league-modal/top-league-modal.component';
 
 @Component({
   selector: 'app-championship-control',
@@ -18,7 +19,7 @@ export class ChampionshipControlComponent implements OnInit {
 
   ngOnInit(): void {
     this.getChampionships();
-    //this.openAddMenu();
+    // this.openAddMenu();
   }
 
   openAddMenu(): void {
@@ -32,6 +33,16 @@ export class ChampionshipControlComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result) this.championships.push(result);
+      });
+  }
+
+  openTopLeague(): void {
+    this.dialog
+      .open(TopLeagueModalComponent, {
+        height: '80%',
+        width: '80%',
+        maxWidth: '900px',
+        data: this.championships,
       });
   }
 

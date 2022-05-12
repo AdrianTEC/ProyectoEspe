@@ -1,0 +1,56 @@
+.title{
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+  font-size: clamp(37px, 2vw, 3vw);
+  color: var(--SecondLetters);
+  line-height: normal;
+  font-weight: bolder;
+  display: flex;
+}
+
+.headersContainer{
+  display: flex;
+  width: 100%;
+  padding: 0 10px;
+  margin-top: 10px;
+}
+
+.headerText{
+  color: var(--Letters);
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+  font-size: clamp(15px, 1vw, 1vw);
+  line-height: normal;
+  font-weight: bolder;
+  display: flex;
+}
+
+.objectHorizontal{
+  display: flex;
+  padding: 0 0 10px 10px;
+  width: 100%;
+  margin: 25px 0 0px 0;
+  border-bottom: 1px solid #ecd1c8;box-sizing: border-box;
+}
+
+.objectContainer{
+  overflow: scroll;
+  max-height: 75%;
+
+}
+.normalText{
+  color: var(--Letters);
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
+  font-size: clamp(12px, 1vw, 1vw);
+  line-height: normal;
+  font-weight: bolder;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.horizontalSymbolText{
+  display: flex;
+  align-items: center;
+
+}

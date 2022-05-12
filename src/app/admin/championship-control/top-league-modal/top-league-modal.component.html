@@ -1,0 +1,28 @@
+<div class="adminMainContainer" xmlns="http://www.w3.org/1999/html">
+  <div class="title">
+    Top 10 equipos en liga pública - {{activeChampionship.name}}
+  </div>
+
+  <div class="horizontalSymbolText" style="width: 20%;">
+    <mat-icon style="color: var(--Letters); margin-right:10px">key</mat-icon>
+    <div class="normalText">{{activeChampionship.id}} </div>
+  </div>
+
+  <div class="decoratorSeparator"></div>
+  <div class="cardBackground">
+    <br>
+    <div class="headersContainer">
+      <div class="headerText" style="width: 33%; ">Jugador </div>
+      <div class="headerText" style="width: 33%;">Equipo </div>
+      <div class="headerText" style="width: 33%;">Puntaje </div>
+    </div>
+    <br>
+    <div class="objectContainer">
+      <div class="objectHorizontal" *ngFor="let t of teams | slice:0:10; let i=index">
+        <div class="normalText" style="width: 33%;">{{t.playerName}}</div>
+        <div class="normalText" style="width: 33%;">{{t.name}}</div>
+        <div class="normalText" style="width: 33%;">{{t.score}}</div>
+      </div>
+    </div>
+  </div>
+</div>

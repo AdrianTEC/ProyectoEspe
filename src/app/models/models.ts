@@ -24,6 +24,13 @@ export class Race {
 export class RaceAux extends Race {
   championshipName: string = '';
 }
+
+export class Team {
+  name: string = '';
+  playerName: string = '';
+  score: number = 0;
+}
+
 export class Country {
   name: string = '';
   code: string = '';

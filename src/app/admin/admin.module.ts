@@ -16,6 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddCareerModalComponent } from './careers-control/add-career-modal/add-career-modal.component';
 import { MatSelectModule } from '@angular/material/select';
+import { TopLeagueModalComponent } from './championship-control/top-league-modal/top-league-modal.component';
 @NgModule({
   declarations: [
     ChampionshipControlComponent,
@@ -25,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
     AdminNavBarComponent,
     AddChampionshipModalComponent,
     AddCareerModalComponent,
+    TopLeagueModalComponent,
   ],
   imports: [
     CommonModule,

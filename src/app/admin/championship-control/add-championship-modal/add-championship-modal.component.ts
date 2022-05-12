@@ -58,9 +58,11 @@ export class AddChampionshipModalComponent implements OnInit {
       const beginDate = this.toDate(c.startingDate);
       const endDate = this.toDate(c.finishingDate);
       const areEqual =
-        newBegindate.isSame(beginDate) || newEnddate.isSame(endDate);
+        (newBegindate.isSame(beginDate) || newBegindate.isSame(endDate)) ||
+        (newEnddate.isSame(beginDate) || newEnddate.isSame(endDate));
       const inRange =
-        newBegindate.isAfter(endDate) || newEnddate.isBefore(beginDate);
+        (newBegindate.isAfter(beginDate) && newBegindate.isBefore(endDate)) ||
+        (newEnddate.isAfter(beginDate) && newEnddate.isBefore(endDate));
 
       if (areEqual || inRange) {
         this.swal.showError(
