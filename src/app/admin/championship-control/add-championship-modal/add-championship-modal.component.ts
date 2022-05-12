@@ -57,14 +57,12 @@ export class AddChampionshipModalComponent implements OnInit {
       const c = this.championships[i];
       const beginDate = this.toDate(c.startingDate);
       const endDate = this.toDate(c.finishingDate);
-      const areEqual =
-        (newBegindate.isSame(beginDate) || newBegindate.isSame(endDate)) ||
-        (newEnddate.isSame(beginDate) || newEnddate.isSame(endDate));
       const inRange =
-        (newBegindate.isAfter(beginDate) && newBegindate.isBefore(endDate)) ||
-        (newEnddate.isAfter(beginDate) && newEnddate.isBefore(endDate));
+        (newBegindate.isSameOrAfter(beginDate) && newBegindate.isSameOrBefore(endDate)) ||
+        (newEnddate.isSameOrAfter(beginDate) && newEnddate.isSameOrBefore(endDate)) ||
+        (newBegindate.isBefore(beginDate) && newEnddate.isAfter(endDate));
 
-      if (areEqual || inRange) {
+      if (inRange) {
         this.swal.showError(
           'Fecha inválida',
           'Ya existe un campeonato en las fechas especificadas, porfavor corrija las fechas e intentelo de nuevo  ' +

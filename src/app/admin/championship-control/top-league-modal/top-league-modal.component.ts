@@ -16,15 +16,18 @@ export class TopLeagueModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActiveChampionship();
-    this.getTeams();
-    this.teams.sort((a, b) => b.score - a.score);
+
   }
 
   getActiveChampionship(): void {
     this.restService
       .get_request('Championships/active', null)
       .subscribe((response: Championship) => {
-        if (response) { this.activeChampionship = response; }
+        if (response) {
+          this.activeChampionship = response;
+          this.getTeams();
+          this.teams.sort((a, b) => b.score - a.score);
+        }
       });
   }
 

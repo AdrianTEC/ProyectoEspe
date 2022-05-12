@@ -94,13 +94,12 @@ export class AddCareerModalComponent implements OnInit {
       const beginDate = this.toDate(c.startingDate);
       const endDate = this.toDate(c.finishingDate);
 
-      const areEqual =
-        newBegindate.isSame(beginDate) || newEnddate.isSame(endDate);
       const inRange =
-        newBegindate.isAfter(endDate) && newEnddate.isBefore(beginDate);
-      console.log('x');
+        (newBegindate.isSameOrAfter(beginDate) && newBegindate.isSameOrBefore(endDate)) ||
+        (newEnddate.isSameOrAfter(beginDate) && newEnddate.isSameOrBefore(endDate)) ||
+        (newBegindate.isBefore(beginDate) && newEnddate.isAfter(endDate));
 
-      if (areEqual || inRange) {
+      if (inRange) {
         this.swal.showError(
           'Fecha inválida',
           'Ya existe una carrera en las fechas especificadas, porfavor corrija las fechas e intentelo de nuevo  ' +
@@ -116,28 +115,22 @@ export class AddCareerModalComponent implements OnInit {
   verifyRaceInChampionshipRange(newRace: Race): boolean {
     const newBegindate = this.toDate(newRace.startingDate);
     const newEnddate = this.toDate(newRace.finishingDate);
+    const championship = this.championships.filter(c => c.id === newRace.championshipId)[0];
 
-    for (let i = 0; i < this.championships.length; i++) {
-      const c = this.championships[i];
-      if (c.id !== newRace.championshipId) continue;
+    console.log(championship.id);
 
-      const beginDate = this.toDate(c.startingDate);
-      const endDate = this.toDate(c.finishingDate);
-      console.log('x');
-      const areEqual =
-        newBegindate.isSame(beginDate) || newEnddate.isSame(endDate);
-      const inRange =
-        beginDate.isBefore(newBegindate) || endDate.isAfter(newEnddate);
+    const beginDate = this.toDate(championship.startingDate);
+    const endDate = this.toDate(championship.finishingDate);
+    const inRange =
+      (newBegindate.isSameOrAfter(beginDate) && newBegindate.isSameOrBefore(endDate)) &&
+      (newEnddate.isSameOrAfter(beginDate) && newEnddate.isSameOrBefore(endDate));
 
-      if (!inRange && !areEqual) {
-        this.swal.showError(
-          'Fecha inválida',
-          'La fecha ingresada no está en el rango del campeonato'
-        );
-        return false;
-      }
+    if (!inRange) {
+      this.swal.showError(
+        'Fecha inválida',
+        'La fecha ingresada no está en el rango del campeonato');
+      return false;
     }
-
     return true;
   }
 
