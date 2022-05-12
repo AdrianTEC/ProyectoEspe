@@ -111,5 +111,10 @@ namespace RestAPI_XF1Online.Data
         {
             _context.Races.RemoveRange(_context.Races);
         }
+
+        public IEnumerable<Team> GetAllTeams()
+        {
+            return _context.Teams.ToList();
+        }
     }
 }

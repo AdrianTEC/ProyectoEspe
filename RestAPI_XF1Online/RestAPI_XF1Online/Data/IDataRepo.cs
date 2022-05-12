@@ -18,5 +18,7 @@ namespace RestAPI_XF1Online.Data
         void CreateRace(Race race);
         void DeleteAllRaces();
 
+        IEnumerable<Team> GetAllTeams();
+
     }
 }

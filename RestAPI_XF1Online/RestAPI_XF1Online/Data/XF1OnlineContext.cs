@@ -12,5 +12,6 @@ namespace RestAPI_XF1Online.Data
 
         public DbSet<Championship> Championships { get; set; } 
         public DbSet<Race> Races { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }
