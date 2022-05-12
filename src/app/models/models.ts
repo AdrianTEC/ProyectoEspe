@@ -27,7 +27,7 @@ export class RaceAux extends Race {
 
 export class Team {
   name: string = '';
-  playerName: string = '';
+  playerUsername: string = '';
   score: number = 0;
 }
 

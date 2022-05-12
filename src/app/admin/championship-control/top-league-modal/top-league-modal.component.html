@@ -19,7 +19,7 @@
     <br>
     <div class="objectContainer">
       <div class="objectHorizontal" *ngFor="let t of teams | slice:0:10; let i=index">
-        <div class="normalText" style="width: 33%;">{{t.playerName}}</div>
+        <div class="normalText" style="width: 33%; padding-right:10px">{{t.playerUsername}}</div>
         <div class="normalText" style="width: 33%;">{{t.name}}</div>
         <div class="normalText" style="width: 33%;">{{t.score}}</div>
       </div>

@@ -39,7 +39,7 @@ export class AddChampionshipModalComponent implements OnInit {
   }
 
   verifyFieldsAreFill(c: Championship): boolean {
-    if (c.name.length == 0 || c.description.length == 0) {
+    if (c.name.length == 0) {
       this.swal.showError(
         'Datos insuficientes',
         'Los datos suministrados son insuficientes. Por favor verifique de nuevo los valores ingresados e intente de nuevo'

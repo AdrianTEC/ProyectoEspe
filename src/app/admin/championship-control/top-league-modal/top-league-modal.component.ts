@@ -10,7 +10,7 @@ import {RestApiServiceService} from '../../../Services/rest-api-service.service'
 export class TopLeagueModalComponent implements OnInit {
 
   teams: Team[] = [];
-  activeChampionship: Championship | undefined;
+  activeChampionship: Championship = new Championship();
 
   constructor(private restService: RestApiServiceService) { }
 
