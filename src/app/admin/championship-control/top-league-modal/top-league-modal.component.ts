@@ -26,7 +26,6 @@ export class TopLeagueModalComponent implements OnInit {
         if (response) {
           this.activeChampionship = response;
           this.getTeams();
-          this.teams.sort((a, b) => b.score - a.score);
         }
       });
   }
@@ -35,7 +34,9 @@ export class TopLeagueModalComponent implements OnInit {
     this.restService
       .get_request('Teams', null)
       .subscribe((response: Team[]) => {
-        if (response.length > 0) { this.teams = response; }
+        if (response.length > 0) {
+          this.teams = response;
+          this.teams.sort((a, b) => b.score - a.score);}
       });
   }
 
