@@ -27,6 +27,21 @@ namespace RestAPI_XF1Online.Data
             championship.Id = CreateRandomChampionshipKey();
             championship.IsActive = true;
             _context.Championships.Add(championship);
+            CreatePublicLeague(championship);
+        }
+
+        private void CreatePublicLeague(Championship championship)
+        {
+            List<PlayerTeam> playerTeams = (List<PlayerTeam>) GetAllPlayerTeams();
+
+            foreach(PlayerTeam playerTeam in playerTeams)
+            {
+                Ranking ranking = new Ranking();
+                ranking.Championship = championship;
+                ranking.PlayerTeam = playerTeam;
+                ranking.Score = 0;
+                _context.Rankings.Add(ranking);
+            }
         }
 
         private void DeactivateChampionships()
@@ -112,9 +127,9 @@ namespace RestAPI_XF1Online.Data
             _context.Races.RemoveRange(_context.Races);
         }
 
-        public IEnumerable<Team> GetAllTeams()
+        public IEnumerable<PlayerTeam> GetAllPlayerTeams()
         {
-            return _context.Teams.ToList();
+            return _context.PlayerTeams.ToList();
         }
     }
 }

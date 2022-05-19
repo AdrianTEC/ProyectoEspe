@@ -24,8 +24,8 @@ namespace RestAPI_XF1Online.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<TeamReadDto>> GetTeams()
         {
-            var teams = _repository.GetAllTeams();
-            return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(teams));
+            var playerTeams = _repository.GetAllPlayerTeams();
+            return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(playerTeams));
         }
     }
 }

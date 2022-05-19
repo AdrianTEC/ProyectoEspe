@@ -56,6 +56,63 @@ namespace RestAPI_XF1Online.Migrations
                     b.ToTable("Championships");
                 });
 
+            modelBuilder.Entity("RestAPI_XF1Online.Models.Player", b =>
+                {
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AgeRange")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Username");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("RestAPI_XF1Online.Models.PlayerTeam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlayerUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerUsername");
+
+                    b.ToTable("PlayerTeams");
+                });
+
             modelBuilder.Entity("RestAPI_XF1Online.Models.Race", b =>
                 {
                     b.Property<int>("Id")
@@ -105,7 +162,7 @@ namespace RestAPI_XF1Online.Migrations
                     b.ToTable("Races");
                 });
 
-            modelBuilder.Entity("RestAPI_XF1Online.Models.Team", b =>
+            modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,20 +170,34 @@ namespace RestAPI_XF1Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ChampionshipId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PlayerUsername")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PlayerTeamId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.HasIndex("ChampionshipId");
+
+                    b.HasIndex("PlayerTeamId");
+
+                    b.ToTable("Rankings");
+                });
+
+            modelBuilder.Entity("RestAPI_XF1Online.Models.PlayerTeam", b =>
+                {
+                    b.HasOne("RestAPI_XF1Online.Models.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerUsername")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Race", b =>
@@ -136,6 +207,25 @@ namespace RestAPI_XF1Online.Migrations
                         .HasForeignKey("ChampionshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
+                {
+                    b.HasOne("RestAPI_XF1Online.Models.Championship", "Championship")
+                        .WithMany()
+                        .HasForeignKey("ChampionshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RestAPI_XF1Online.Models.PlayerTeam", "PlayerTeam")
+                        .WithMany()
+                        .HasForeignKey("PlayerTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Championship");
+
+                    b.Navigation("PlayerTeam");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Championship", b =>

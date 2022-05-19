@@ -2,7 +2,7 @@
 
 namespace RestAPI_XF1Online.Models
 {
-    public class Team
+    public class PlayerTeam
     {
         [Key]
         public int Id { get; set; }
@@ -11,9 +11,6 @@ namespace RestAPI_XF1Online.Models
         public string Name { get; set; }
 
         [Required]
-        public string PlayerUsername { get; set; }
-
-        [Required]
-        public int Score { get; set; }
+        public Player Player { get; set; }
     }
 }

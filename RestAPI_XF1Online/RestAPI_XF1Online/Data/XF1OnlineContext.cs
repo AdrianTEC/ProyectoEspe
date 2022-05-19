@@ -10,8 +10,10 @@ namespace RestAPI_XF1Online.Data
 
         }
 
-        public DbSet<Championship> Championships { get; set; } 
+        public DbSet<Championship> Championships { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerTeam> PlayerTeams { get; set; }
         public DbSet<Race> Races { get; set; }
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Ranking> Rankings { get; set; }
     }
 }
