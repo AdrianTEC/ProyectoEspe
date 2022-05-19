@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestAPI_XF1Online.Models
+namespace RestAPI_XF1Online.DTOs
 {
-    public class Player
+    public class PlayerCreateDto
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required]
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
@@ -20,7 +18,5 @@ namespace RestAPI_XF1Online.Models
         public string Country { get; set; }
         [Required]
         public string AgeRange { get; set; }
-        [Required]
-        public bool ConfirmedAccount { get; set; } 
     }
 }

@@ -20,5 +20,8 @@ namespace RestAPI_XF1Online.Data
 
         IEnumerable<PlayerTeam> GetAllPlayerTeams();
 
+        Player GetPlayerByUsername(string username);
+        void CreatePlayer(Player player);
+
     }
 }

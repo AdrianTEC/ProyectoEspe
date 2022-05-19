@@ -131,5 +131,16 @@ namespace RestAPI_XF1Online.Data
         {
             return _context.PlayerTeams.ToList();
         }
+
+        public Player GetPlayerByUsername(string username)
+        {
+            return _context.Players.FirstOrDefault(p => p.Username == username);
+        }
+
+        public void CreatePlayer(Player player)
+        {
+            player.ConfirmedAccount = false;
+            _context.Players.Add(player);
+        }
     }
 }
