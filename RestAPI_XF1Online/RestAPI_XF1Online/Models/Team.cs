@@ -2,20 +2,13 @@
 
 namespace RestAPI_XF1Online.Models
 {
-    public class PlayerTeam
+    public class Team
     {
         [Key]
         public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
-
         [Required]
-        public Player Player { get; set; }
-
-        [Required]
-        public Team Team { get; set; }
-        [Required]
-        public List<Driver> Drivers { get; set; }
+        public int Price { get; set; }
     }
 }
