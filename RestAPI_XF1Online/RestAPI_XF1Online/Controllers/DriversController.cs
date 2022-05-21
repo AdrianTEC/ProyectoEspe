@@ -9,24 +9,24 @@ namespace RestAPI_XF1Online.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class DriversController : ControllerBase
     {
         private readonly IDataRepo _repository;
         private readonly IMapper _mapper;
 
-        public TeamsController(IDataRepo repository, IMapper mapper)
+        public DriversController(IDataRepo repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
 
-        // GET: Teams/
+        // GET: drivers/
         [HttpGet]
-        public ActionResult<IEnumerable<TeamReadDto>> GetChampionships()
+        public ActionResult<IEnumerable<DriverReadDto>> GetChampionships()
         {
-            var teams = _repository.GetAllTeams();
-            return Ok(_mapper.Map<IEnumerable<TeamReadDto>>(teams));
+            var drivers = _repository.GetAllDrivers();
+            return Ok(_mapper.Map<IEnumerable<DriverReadDto>>(drivers));
         }
     }
 

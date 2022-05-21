@@ -16,6 +16,6 @@ namespace RestAPI_XF1Online.Models
         [Required]
         public Team Team { get; set; }
         [Required]
-        public List<Driver> Drivers { get; set; }
+        public virtual List<Driver> Drivers { get; set; }
     }
 }

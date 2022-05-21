@@ -12,7 +12,6 @@ namespace RestAPI_XF1Online.Models
         public string Country { get; set; }
         [Required]
         public int Price { get; set; }
-        [Required]
         public List<PlayerTeam> PlayerTeams { get; set; }
     }
 }

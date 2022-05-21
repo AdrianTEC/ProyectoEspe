@@ -9,7 +9,10 @@ namespace RestAPI_XF1Online.Profiles
 
         public TeamProfile()
         {
-            CreateMap<PlayerTeam, TeamReadDto>();
+            CreateMap<Team, TeamReadDto>();
+            CreateMap<int, Team>()
+                .ForMember(x => x.Id,
+                    opt => opt.MapFrom(src => src));
         }
     }
 }

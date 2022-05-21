@@ -1,4 +1,6 @@
-﻿using RestAPI_XF1Online.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestAPI_XF1Online.Models;
+using System.Diagnostics;
 
 namespace RestAPI_XF1Online.Data
 {
@@ -127,9 +129,33 @@ namespace RestAPI_XF1Online.Data
             _context.Races.RemoveRange(_context.Races);
         }
 
-        public IEnumerable<PlayerTeam> GetAllPlayerTeams()
+        public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
+        {
+            var teams = _context.PlayerTeams.Where(pt => pt.Player.Username == username).Include("Drivers").Include("Team").ToList();
+            return teams;
+        }
+
+        private IEnumerable<PlayerTeam> GetAllPlayerTeams()
         {
             return _context.PlayerTeams.ToList();
+        }
+
+        public PlayerTeam GetPlayerTeamById(int id)
+        {
+            return _context.PlayerTeams.FirstOrDefault(pt => pt.Id == id);
+        }
+
+        public void CreatePlayerTeam(PlayerTeam playerTeam)
+        {
+            playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
+            playerTeam.Team = GetTeamById(playerTeam.Team.Id);
+            var drivers = playerTeam.Drivers;
+            playerTeam.Drivers = new List<Driver>();
+            foreach(Driver driver in drivers)
+            {
+                playerTeam.Drivers.Add(GetDriverById(driver.Id));
+            }
+            _context.PlayerTeams.Add(playerTeam);
         }
 
         public Player GetPlayerByUsername(string username)
@@ -141,6 +167,34 @@ namespace RestAPI_XF1Online.Data
         {
             player.ConfirmedAccount = false;
             _context.Players.Add(player);
+        }
+
+        public Team GetTeamById(int id)
+        {
+            return _context.Teams.FirstOrDefault(pt => pt.Id == id);
+        }
+
+        public IEnumerable<Team> GetAllTeams()
+        {
+            return _context.Teams.ToList();
+        }
+
+        public Driver GetDriverById(int id)
+        {
+            return _context.Drivers.FirstOrDefault(pt => pt.Id == id);
+        }
+
+        public IEnumerable<Driver> GetAllDrivers()
+        {
+            return _context.Drivers.ToList();
+        }
+
+        public IEnumerable<Ranking> GetCurrentPublicLeagueRanking()
+        {
+            var currentChampionship = GetActiveChampionship();
+            var ranking = _context.Rankings.Where(r => r.Championship.Id == currentChampionship.Id).Include("PlayerTeam")
+                .Include("PlayerTeam.Player").ToList();
+            return ranking;
         }
     }
 }

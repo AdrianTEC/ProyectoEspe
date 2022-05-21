@@ -11,6 +11,9 @@ namespace RestAPI_XF1Online.Profiles
         {
             CreateMap<PlayerCreateDto, Player>();
             CreateMap<Player, PlayerReadDto>();
+            CreateMap<string, Player>()
+                .ForMember(x => x.Username,
+                    opt => opt.MapFrom(src => src));
         }
     }
 }

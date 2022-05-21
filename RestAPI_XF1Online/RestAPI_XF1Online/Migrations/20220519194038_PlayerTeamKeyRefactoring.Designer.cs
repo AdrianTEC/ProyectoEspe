@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220519194038_PlayerTeamKeyRefactoring")]
+    partial class PlayerTeamKeyRefactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,14 +29,14 @@ namespace RestAPI_XF1Online.Migrations
                     b.Property<int>("DriversId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayerTeamsId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlayerTeamsName")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("DriversId", "PlayerTeamsId");
+                    b.HasKey("DriversId", "PlayerTeamsName");
 
-                    b.HasIndex("PlayerTeamsId");
+                    b.HasIndex("PlayerTeamsName");
 
-                    b.ToTable("DriverPlayerTeam", (string)null);
+                    b.ToTable("DriverPlayerTeam");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Championship", b =>
@@ -68,7 +70,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Championships", (string)null);
+                    b.ToTable("Championships");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Driver", b =>
@@ -92,7 +94,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Driver");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Player", b =>
@@ -129,35 +131,27 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Username");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.PlayerTeam", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PlayerUsername")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.HasIndex("PlayerUsername");
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("PlayerTeams", (string)null);
+                    b.ToTable("PlayerTeams");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Race", b =>
@@ -206,7 +200,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("ChampionshipId");
 
-                    b.ToTable("Races", (string)null);
+                    b.ToTable("Races");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
@@ -221,8 +215,9 @@ namespace RestAPI_XF1Online.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("PlayerTeamId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlayerTeamName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
@@ -231,9 +226,9 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("ChampionshipId");
 
-                    b.HasIndex("PlayerTeamId");
+                    b.HasIndex("PlayerTeamName");
 
-                    b.ToTable("Rankings", (string)null);
+                    b.ToTable("Rankings");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Team", b =>
@@ -253,7 +248,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams", (string)null);
+                    b.ToTable("Team");
                 });
 
             modelBuilder.Entity("DriverPlayerTeam", b =>
@@ -266,7 +261,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasOne("RestAPI_XF1Online.Models.PlayerTeam", null)
                         .WithMany()
-                        .HasForeignKey("PlayerTeamsId")
+                        .HasForeignKey("PlayerTeamsName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -275,9 +270,7 @@ namespace RestAPI_XF1Online.Migrations
                 {
                     b.HasOne("RestAPI_XF1Online.Models.Player", "Player")
                         .WithMany()
-                        .HasForeignKey("PlayerUsername")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayerUsername");
 
                     b.HasOne("RestAPI_XF1Online.Models.Team", "Team")
                         .WithMany()
@@ -309,7 +302,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasOne("RestAPI_XF1Online.Models.PlayerTeam", "PlayerTeam")
                         .WithMany()
-                        .HasForeignKey("PlayerTeamId")
+                        .HasForeignKey("PlayerTeamName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

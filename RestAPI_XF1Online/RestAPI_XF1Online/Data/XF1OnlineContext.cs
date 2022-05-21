@@ -15,5 +15,7 @@ namespace RestAPI_XF1Online.Data
         public DbSet<PlayerTeam> PlayerTeams { get; set; }
         public DbSet<Race> Races { get; set; }
         public DbSet<Ranking> Rankings { get; set; }
+        public DbSet<Driver> Drivers { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }

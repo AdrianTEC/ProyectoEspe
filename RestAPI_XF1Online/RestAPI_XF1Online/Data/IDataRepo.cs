@@ -18,10 +18,20 @@ namespace RestAPI_XF1Online.Data
         void CreateRace(Race race);
         void DeleteAllRaces();
 
-        IEnumerable<PlayerTeam> GetAllPlayerTeams();
+        IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username);
+        PlayerTeam GetPlayerTeamById(int id);
+        void CreatePlayerTeam(PlayerTeam playerTeam);
 
         Player GetPlayerByUsername(string username);
         void CreatePlayer(Player player);
+
+        IEnumerable<Team> GetAllTeams();
+        Team GetTeamById(int id);
+
+        IEnumerable<Driver> GetAllDrivers();
+        Driver GetDriverById(int id);
+
+        IEnumerable<Ranking> GetCurrentPublicLeagueRanking();
 
     }
 }
