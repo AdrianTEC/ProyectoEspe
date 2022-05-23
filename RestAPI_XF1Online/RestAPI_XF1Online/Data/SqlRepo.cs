@@ -131,7 +131,7 @@ namespace RestAPI_XF1Online.Data
 
         public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
         {
-            var teams = _context.PlayerTeams.Where(pt => pt.Player.Username == username).Include("Drivers").Include("Team").ToList();
+            var teams = _context.PlayerTeams.Where(pt => pt.Player.Username == username).Include("Drivers").Include("Scuderia").ToList();
             return teams;
         }
 
@@ -148,7 +148,7 @@ namespace RestAPI_XF1Online.Data
         public void CreatePlayerTeam(PlayerTeam playerTeam)
         {
             playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
-            playerTeam.Team = GetTeamById(playerTeam.Team.Id);
+            playerTeam.Scuderia = GetScuderiaById(playerTeam.Scuderia.Id);
             var drivers = playerTeam.Drivers;
             playerTeam.Drivers = new List<Driver>();
             foreach(Driver driver in drivers)
@@ -169,14 +169,14 @@ namespace RestAPI_XF1Online.Data
             _context.Players.Add(player);
         }
 
-        public Team GetTeamById(int id)
+        public Scuderia GetScuderiaById(int id)
         {
-            return _context.Teams.FirstOrDefault(pt => pt.Id == id);
+            return _context.Scuderias.FirstOrDefault(pt => pt.Id == id);
         }
 
-        public IEnumerable<Team> GetAllTeams()
+        public IEnumerable<Scuderia> GetAllScuderias()
         {
-            return _context.Teams.ToList();
+            return _context.Scuderias.ToList();
         }
 
         public Driver GetDriverById(int id)

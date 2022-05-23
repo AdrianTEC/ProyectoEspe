@@ -25,8 +25,8 @@ namespace RestAPI_XF1Online.Data
         Player GetPlayerByUsername(string username);
         void CreatePlayer(Player player);
 
-        IEnumerable<Team> GetAllTeams();
-        Team GetTeamById(int id);
+        IEnumerable<Scuderia> GetAllScuderias();
+        Scuderia GetScuderiaById(int id);
 
         IEnumerable<Driver> GetAllDrivers();
         Driver GetDriverById(int id);

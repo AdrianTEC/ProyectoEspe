@@ -2,7 +2,7 @@
 
 namespace RestAPI_XF1Online.Models
 {
-    public class Team
+    public class Scuderia
     {
         [Key]
         public int Id { get; set; }

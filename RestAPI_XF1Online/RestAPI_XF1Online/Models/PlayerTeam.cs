@@ -14,7 +14,7 @@ namespace RestAPI_XF1Online.Models
         public Player Player { get; set; }
 
         [Required]
-        public Team Team { get; set; }
+        public Scuderia Scuderia { get; set; }
         [Required]
         public virtual List<Driver> Drivers { get; set; }
     }

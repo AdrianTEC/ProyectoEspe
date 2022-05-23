@@ -4,13 +4,13 @@ using RestAPI_XF1Online.Models;
 
 namespace RestAPI_XF1Online.Profiles
 {
-    public class TeamProfile : Profile
+    public class ScuderiaProfile : Profile
     {
 
-        public TeamProfile()
+        public ScuderiaProfile()
         {
-            CreateMap<Team, TeamReadDto>();
-            CreateMap<int, Team>()
+            CreateMap<Scuderia, ScuderiaReadDto>();
+            CreateMap<int, Scuderia>()
                 .ForMember(x => x.Id,
                     opt => opt.MapFrom(src => src));
         }

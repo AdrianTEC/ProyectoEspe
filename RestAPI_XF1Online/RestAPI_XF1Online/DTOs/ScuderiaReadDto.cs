@@ -1,7 +1,7 @@
 ﻿
 namespace RestAPI_XF1Online.DTOs
 {
-    public class TeamReadDto
+    public class ScuderiaReadDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
