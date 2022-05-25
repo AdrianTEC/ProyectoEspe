@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using RestAPI_XF1Online.Email;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI_XF1Online.Data;
 using RestAPI_XF1Online.DTOs;
 using RestAPI_XF1Online.Models;
+using HtmlAgilityPack;
 
 namespace RestAPI_XF1Online.Controllers
 {
@@ -27,17 +29,40 @@ namespace RestAPI_XF1Online.Controllers
             return Ok(_mapper.Map<PlayerReadDto>(player));
         }
 
-        // POST: players/
-        [HttpPost]
-        public ActionResult<PlayerReadDto> CreateRace(PlayerCreateDto playerCreateDto)
+        // GET: players/{username}
+        [HttpGet("auth/{username}")]
+        public ActionResult AccountAuthentification(string username)
         {
-            var playerModel = _mapper.Map<Player>(playerCreateDto);
-            _repository.CreatePlayer(playerModel);
+            _repository.AuthPlayer(username);
             _repository.SaveChanges();
 
-            var playerReadDto = _mapper.Map<PlayerReadDto>(playerModel);
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.Load(@"Email/accountVerified.html");
 
-            return CreatedAtRoute(nameof(GetPlayerByUsername), new { Username = playerReadDto.Username }, playerReadDto);
+            return base.Content(htmlDocument.DocumentNode.OuterHtml, "text/html");
+        }
+
+        // POST: players/
+        [HttpPost]
+        public ActionResult<PlayerReadDto> CreatePlayer(PlayerCreateDto playerCreateDto)
+        {
+            try
+            {
+                var playerModel = _mapper.Map<Player>(playerCreateDto);
+                _repository.CreatePlayer(playerModel);
+                _repository.SaveChanges();
+
+                EmailService.SendConfirmationEmail(playerModel);
+
+                var playerReadDto = _mapper.Map<PlayerReadDto>(playerModel);
+
+                return CreatedAtRoute(nameof(GetPlayerByUsername), new { Username = playerReadDto.Username }, playerReadDto);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

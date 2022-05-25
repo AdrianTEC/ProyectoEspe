@@ -165,8 +165,19 @@ namespace RestAPI_XF1Online.Data
 
         public void CreatePlayer(Player player)
         {
+            var existingPlayer = _context.Players.FirstOrDefault(p => p.Email == player.Email && p.ConfirmedAccount == true);
+            if (existingPlayer != null)
+            {
+                throw new InvalidDataException("An account already exists with the specified email.");
+            }
             player.ConfirmedAccount = false;
             _context.Players.Add(player);
+        }
+        public void AuthPlayer(string username)
+        {
+            var player = _context.Players.FirstOrDefault(p => p.Username == username);
+            player.ConfirmedAccount = true;
+            _context.Players.Update(player);
         }
 
         public Scuderia GetScuderiaById(int id)
@@ -196,5 +207,6 @@ namespace RestAPI_XF1Online.Data
                 .Include("PlayerTeam.Player").ToList();
             return ranking;
         }
+
     }
 }
