@@ -1,0 +1,92 @@
+<div class="mainContainer mainViewOverride" style="overflow: scroll;    ;">
+
+
+    <div class="teamShortContainer">
+        <div class="teamShortContainer">
+            <div class="teamGroup">
+
+                <div *ngFor="let number of [1,2,3,4,5]">
+                    <mat-icon *ngIf="number <= team1.drivers.length" class="pilotSphereActive">account_circle</mat-icon>
+
+                    <mat-icon *ngIf="number > team1.drivers.length" class="pilotSphereInactive">account_circle
+                    </mat-icon>
+                </div>
+                <div class="carShortIconActive" *ngIf="!objIsEmpty(team1.scudery)">
+                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
+                </div>
+                <div class="carShortIconInactive" *ngIf="objIsEmpty(team1.scudery)">
+                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
+                </div>
+            </div>
+
+            <div class="teamGroup">
+
+                <div *ngFor="let number of [1,2,3,4,5]">
+                    <mat-icon *ngIf="number <= team2.drivers.length" class="pilotSphereActive">account_circle</mat-icon>
+
+                    <mat-icon *ngIf="number > team2.drivers.length" class="pilotSphereInactive">account_circle
+                    </mat-icon>
+                </div>
+                <div class="carShortIconActive" *ngIf="!objIsEmpty(team2.scudery)">
+                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
+                </div>
+                <div class="carShortIconInactive" *ngIf="objIsEmpty(team2.scudery)">
+                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="separator"></div>
+    <div class="smallMargin"></div>
+    <div class="storeButtonContainer">
+        <div class="cardButton" (click)="seeingDrivers=true">
+            <div class="simpleText">Pilotos</div>
+        </div>
+        <div class="cardButton" (click)="seeingDrivers=false">
+            <div class="simpleText">Escuderías</div>
+        </div>
+    </div>
+    <div class="smallMargin"></div>
+    <div class="driversContainer" *ngIf="seeingDrivers">
+        <div class="pilotCard cardOverride" *ngFor="let driver of pilots">
+            <div class="pilotImageContainer">
+                <img src="assets/images/p (2).png" class="pilotImage">
+            </div>
+
+            <div class="simpleText">{{driver.name}}</div>
+            <div class="separator"></div>
+            <div class="priceAndFlag">
+                <div class="simpleText">{{driver.price}}$</div>
+                <img class="flag" src={{driver.country}}>
+            </div>
+
+            <div class="cardButton" (click)="addPilotToCar(driver)">
+                <div class="simpleText" style="color: white;">Comprar</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="driversContainer" *ngIf="!seeingDrivers">
+        <div class="carCard cardOverride" *ngFor="let scuderia of scuderias">
+            <div class="carImageContainer">
+                <img src="assets/images/c (2).png" class="carImage">
+            </div>
+
+            <div class="simpleText">{{scuderia.name}}</div>
+            <div class="separator"></div>
+            <div class="priceAndFlag">
+                <div class="simpleText">{{scuderia.price}}$</div>
+
+            </div>
+
+            <div class="cardButton" (click)="addCarToCar(scuderia)">
+                <div class="simpleText" style="color: white;">Comprar</div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

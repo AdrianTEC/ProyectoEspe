@@ -1,0 +1,72 @@
+<div class="verticalContainer">
+    <app-admin-nav-bar></app-admin-nav-bar>
+
+    <div class="adminMainContainer">
+
+        <div class="adminTitle">Campeonatos</div>
+        <div class="decoratorSeparator"></div>
+        <div class="cardBackground">
+
+            <div class="actionButtonContainer">
+              <div class="actionButton" (click)="openTopLeague()">
+                Ver top
+                <mat-icon>subject</mat-icon>
+              </div>
+              <div class="actionButton" (click)="openAddMenu()">
+                Agregar
+                <mat-icon>add</mat-icon>
+              </div>
+                <div class="actionButton">
+                    Buscar
+                    <mat-icon>search</mat-icon>
+                </div>
+            </div>
+
+            <div class="headersContainer">
+                <div class="headerText" style="width: 20%; ">Nombre </div>
+                <div class="headerText" style="width: 20%;">Inicio </div>
+                <div class="headerText" style="width: 20%;">Finalización </div>
+                <div class="headerText" style="width: 20%;">Llave de acceso </div>
+                <div class="headerText" style="width: 20%;">Estado </div>
+            </div>
+            <div class="objectContainer">
+                <div class="objectHorizontal" *ngFor="let c of championships">
+                    <div class="normalText" style="width: 20%;  padding-right:10px">{{c.name}} </div>
+                    <div class="normalText" style="width: 20%;">{{c.startingDate}} {{c.startingTime}} </div>
+                    <div class="normalText" style="width: 20%;">{{c.finishingDate}} {{c.finishingTime}} </div>
+
+                    <div class="horizontalSymbolText" style="width: 20%;">
+                        <mat-icon style="color: var(--Letters); margin-right:10px">key</mat-icon>
+                        <div class="normalText">{{c.id}} </div>
+                    </div>
+
+                    <div class="horizontalSymbolText" style="width: 20%;">
+
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '0' " class="statusBall"
+                            style="background-color: #38726C"></div>
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '0' " class="normalText">
+                            Activo </div>
+
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '1' " class="statusBall"
+                            style="background-color: #D34E24"></div>
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '1' " class="normalText">
+                            Futuro </div>
+
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '2' " class="statusBall"
+                            style="background-color: #6A544C"></div>
+                        <div *ngIf="calcChampionshipState(c.startingDate,c.finishingDate) === '2' " class="normalText">
+                            Inactivo </div>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+
+            <div class="cardDecorator"></div>
+        </div>
+    </div>
+</div>

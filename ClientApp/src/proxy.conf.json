@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://restapixf1onlinedeploy.azurewebsites.net/",
+    "secure": false
+  },
+  "/api/*": {
+    "target": "https://countryflagsapi.com/png/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
