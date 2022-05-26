@@ -1,0 +1,110 @@
+.mainViewOverride{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.driversContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: scroll;
+    width: 80%;
+}
+
+.cardOverride{
+    margin-top: 70px !important;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    border: 1px solid #aaaaaa;
+}
+
+.cardOverride:hover{
+    transition: 0.3s;
+    box-shadow: 0px 0px 9px 2px rgba(255, 255, 255, 0.25);
+    border: 1px solid #FFFFFF;
+}
+
+.storeButtonContainer{
+    display: flex;
+    width: 80%;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+
+}
+.teamShortContainer{
+    display: flex;
+    width: 80%;
+
+}
+.teamGroup{
+    display: flex;
+    width: 40%;
+    align-items: center;
+}
+.pilotSphereActive{
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.pilotSphereInactive{
+    color: rgb(92, 92, 92);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.cardButton{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    cursor:pointer;
+    user-select: none;
+    transition: 0.3s;
+    border-radius: 10px;
+    padding: 4px 20px;
+    border: 1px solid #aaaaaa;
+    
+    margin: 3px 3px;
+    background-color: var(--background);
+}
+.cardButton:hover{
+    transform: translate(0 ,-4px);
+    transition: 0.3s;
+    border: solid white 1px;
+    box-shadow: 0px 0px 9px 9px rgba(255, 255, 255, 0.25);
+}
+
+.carShortIconInactive{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    padding: 3px;
+    border-radius: 50px;
+    
+    height: 16px;
+    margin-left: 5px;
+    background-color: rgb(92, 92, 92);
+    
+
+}
+
+.carShortIconActive{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    min-width: 60px;
+    padding: 3px;
+    border-radius: 50px;
+    
+    height: 16px;
+    margin-left: 5px;
+}
+.carIconActive{
+    filter: invert(1);
+}

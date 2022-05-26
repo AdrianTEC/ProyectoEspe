@@ -1,0 +1,71 @@
+<div class="verticalContainer">
+    <app-admin-nav-bar></app-admin-nav-bar>
+
+    <div class="adminMainContainer">
+
+        <div class="adminTitle">Carreras</div>
+        <div class="decoratorSeparator"></div>
+        <div class="cardBackground">
+
+            <div class="actionButtonContainer">
+                <div class="actionButton" (click)="openAddMenu()">
+                    Agregar
+                    <mat-icon>add</mat-icon>
+                </div>
+                <div class="actionButton">
+                    Buscar
+                    <mat-icon>search</mat-icon>
+                </div>
+            </div>
+
+            <div class="headersContainer">
+                <div class="headerText" style="width: 10%; ">Nombre </div>
+                <div class="headerText" style="width: 10%;">País </div>
+                <div class="headerText" style="width: 20%;">Pista </div>
+                <div class="headerText" style="width: 15%;">Inicio </div>
+                <div class="headerText" style="width: 15%;">Finalización </div>
+                <div class="headerText" style="width: 20%;">Campeonato </div>
+                <div class="headerText" style="width: 10%;">Estado </div>
+            </div>
+            <div class="objectContainer">
+                <div class="objectHorizontal" *ngFor="let c of races">
+                    <div class="normalText" style="width: 10%;  padding-right:10px">{{c.name}} </div>
+                    <div class="normalText" style="width: 10%;">{{c.country}}</div>
+                    <div class="normalText" style="width: 20%;">{{c.trackName}} </div>
+
+                    <div class="normalText" style="width: 15%;">{{c.startingDate}} {{c.startingTime}} </div>
+                    <div class="normalText" style="width: 15%;">{{c.finishingDate}} {{c.finishingTime}} </div>
+
+                    <div class="normalText" style="width: 20%;">{{c.championshipName}}</div>
+
+                    <div class="horizontalSymbolText" style="width: 10%;">
+
+                        <div *ngIf="c.actualState === 'Pendiente' " class="statusBall"
+                            style="background-color: #3B40C2"></div>
+                        <div class="normalText">
+                            {{c.actualState}}
+                        </div>
+
+                        <div *ngIf="c.actualState === 'Suspendida' " class="statusBall"
+                            style="background-color: #1E1E1E">
+                        </div>
+
+                        <div *ngIf="c.actualState === 'Calificación Completada' " class="statusBall"
+                            style="background-color: #D34E24"></div>
+
+
+                        <div *ngIf="c.actualState === 'Carrera Completada' " class="statusBall"
+                            style="background-color: #38726C"></div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="cardDecorator"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="loginContainer">
+
+    <div class="loginForm">
+        <div class="title">XFIA</div>
+        <div class="smallMargin"></div>
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre de usuario</div>
+            <input class="inputBackground" style="width: 80%;" #username>
+        </div>
+        <div class="smallMargin"></div>
+
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Contraseña</div>
+            <input type="password" class="inputBackground" style="width: 80%;" #password>
+        </div>
+        <div class="bigMargin"></div>
+
+
+
+        <div class="nextButton" (click)="login(username.value,password.value)">Siguiente</div>
+
+        <div class="medMargin"></div>
+        <div class="nextButton" style="font-size: clamp(14px, 0.5vw, 2vw) !important; " (click)="register()">No tienes
+            una cuenta?</div>
+
+    </div>
+
+
+
+</div>

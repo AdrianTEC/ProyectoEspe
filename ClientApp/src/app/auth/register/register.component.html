@@ -1,0 +1,50 @@
+<div class="loginContainer">
+
+    <div class="loginForm">
+        <div class="title">XFIA</div>
+        <div class="smallMargin"></div>
+
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre Real</div>
+            <input class="inputBackground" style="width: 80%;" #name>
+        </div>
+        <div class="smallMargin"></div>
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Correo Electrónico</div>
+            <input class="inputBackground" style="width: 80%;" #mail>
+        </div>
+        <div class="smallMargin"></div>
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre de usuario</div>
+            <input class="inputBackground" style="width: 80%;" #username>
+        </div>
+        <div class="smallMargin"></div>
+
+        <div class="textAndInput">
+            <div class="simpleSmallText" style="width: 100%; justify-content:center">Contraseña</div>
+            <input type="password" class="inputBackground" style="width: 80%;" #password>
+        </div>
+        <div class="bigMargin"></div>
+
+        <div class="simpleSmallText" style="width: 100%; justify-content:center">País</div>
+
+        <mat-select style="color: white;" class="inputBackground" style="width: 80%;" #country>
+            <mat-option *ngFor="let country of countries" [value]="country">
+                {{country}}</mat-option>
+        </mat-select>
+        <div class="medMargin"></div>
+
+        <div class="nextButton" (click)="register({name: name.value,
+            username: username.value,
+            mail:mail.value, 
+            password: password.value,
+            country:country.value})">
+            Siguiente</div>
+
+
+
+    </div>
+
+
+
+</div>

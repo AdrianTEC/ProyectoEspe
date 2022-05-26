@@ -1,0 +1,45 @@
+.navBarContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+}
+.navBarButtonTitle{
+    display: block;
+}
+.navBarButton{
+    color: var(--Letters);
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(14px, 14px, 22px);
+    margin: 0 10px;
+    line-height: normal;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: 0.5s;
+}
+
+.moneyBackground{
+    background-color: #f3f3f3;
+    width: 120px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+}
+.navBarText{
+    color: var(--Letters);
+    font-family: 'Roboto', sans-serif;
+    font-size: clamp(14px, 14px, 22px);
+    margin: 0 10px;
+    line-height: normal;
+    -webkit-user-select: none;
+    user-select: none;
+ 
+}
+.navBarButton:hover{
+    cursor: pointer;
+    filter: invert(0.1);
+    transform: translate(0px,-10px);
+    transition: 0.3s;
+}

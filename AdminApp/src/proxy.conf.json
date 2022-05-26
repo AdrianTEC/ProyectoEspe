@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://restapixf1onlinedeploy.azurewebsites.net/",
+    "secure": false
+  }
+}

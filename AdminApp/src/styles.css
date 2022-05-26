@@ -1,0 +1,126 @@
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+:root{
+    --Letters:#D34E24;
+    --WhiteBackgrond:#FFFFFF;
+    --DarkBackground:#323448;
+    --AdminBackground:#F7F7F7;
+    --button:#38726C;
+    --SecondLetters: #563F1B
+    
+}
+body{
+    margin: 0px!important;
+
+}
+
+
+.adminTitle{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: clamp(37px, 3vw, 4vw);
+    color: var(--DarkBackground);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+}
+
+
+.cardBackground{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
+    width: 50%;
+    height: 700px;
+    background-color: var(--WhiteBackgrond);
+    position: relative;
+}
+
+
+
+.cardBackground{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3px;
+    width: 100%;
+    height: 80%;
+}
+
+
+.verticalContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+}
+.adminMainContainer{
+    width: 100%;
+    padding: 2% 2% ;
+    height: 100vh;
+    background-color: var(--AdminBackground);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.actionButtonContainer{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.actionButton{
+    padding: 5px 17px;
+    display: flex;
+    background-color: var(--button);
+    border-radius: 100px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    min-width: 120px;
+    justify-content: space-between;
+    user-select: none;
+    margin: 10px 10px;
+    transition: 200ms;
+
+}
+.actionButton:hover{
+    box-shadow: 0px 0px 5px 3px #79B574;
+    transition: 200ms;
+    transform: translate(-0, -8px);
+    cursor: pointer;
+}
+
+.decoratorSeparator{
+    width: 90%;
+    border-bottom: 1px solid var(--DarkBackground);
+    margin-bottom: 5%;
+}
+
+.cardDecorator{
+    width: 100%;
+    height: 37px;
+    background-color: var(--button);
+    border-radius: 0 0 3px 3px;
+    position: absolute;
+    bottom: 0;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/**ScrollBar**/
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--button); 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    filter: invert(0.5);
+    cursor: pointer;
+  }
+  .mat-select-value{
+      color: var(--SecondLetters) !important;
+  }
