@@ -11,6 +11,8 @@ export class StoreComponent implements OnInit {
   pilots: Driver[] = [];
   scuderias: Scuderia[] = [];
 
+  currentAction: any = '';
+
   team1: any = {
     drivers: [],
     scudery: {},
@@ -45,6 +47,7 @@ export class StoreComponent implements OnInit {
     return Object.keys(value).length === 0;
   }
   ngOnInit(): void {
+    this.currentAction = localStorage.getItem('currentAction');
     this.getDrivers();
     this.getScuderias();
   }

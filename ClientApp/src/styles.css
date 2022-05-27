@@ -11,7 +11,7 @@
     
 }
 html{
-    background-color:var(--background) ;
+    background: linear-gradient(180deg, #010037 0%, #000000 100%);
     overflow: hidden;
 }
 body{
@@ -204,6 +204,7 @@ input:-webkit-autofill:focus {
     margin-top: 30px;
 }
 .pilotCard{
+    position: relative;
     border: 1px solid #FFFFFF;
     border-radius: 3px;
     position: relative;

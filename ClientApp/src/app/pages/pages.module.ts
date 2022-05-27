@@ -8,7 +8,7 @@ import { MyPortalComponent } from './my-portal/my-portal.component';
 import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     PagesComponent,
@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     CommonModule,
     PagesRoutingModule,
     MatIconModule,
+    MatMenuModule,
     MatNativeDateModule,
   ],
 })

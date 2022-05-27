@@ -12,6 +12,14 @@ export class SwalService {
     });
   }
 
+  showErrorHTML(title: string, text: string) {
+    Swal.fire({
+      icon: 'error',
+      title: title,
+      html: text,
+    });
+  }
+
   showSuccess(title: string, text: string) {
     Swal.fire({
       icon: 'success',
