@@ -19,10 +19,19 @@ export class LoginComponent implements OnInit {
 
   login(username: string, password: string): void {
     password = Md5.hashStr(password);
-    this.backend.get_request('Players/' + username, null).subscribe((user) => {
-      user.money = 1000000000;
-      this.sesionService.setUser(JSON.stringify(user));
-      this.router.navigateByUrl('/pages');
+
+    const data = { username: username, password: password };
+
+    this.backend.post_request('Login', data).subscribe((userAuth: any) => {
+      console.log(userAuth);
+
+      if (!userAuth.isPlayer) return;
+      this.backend
+        .get_request('Players/' + username, null)
+        .subscribe((userData) => {
+          this.sesionService.setUser(JSON.stringify(userData));
+          this.router.navigateByUrl('/pages');
+        });
     });
   }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CheckerService } from 'src/app/Services/checker.service';
 import { CountryService } from 'src/app/Services/country-service.service';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
 import { SwalService } from 'src/app/Services/swal-service.service';
@@ -13,7 +14,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private countryService: CountryService,
     private swal: SwalService,
-    private backend: RestApiServiceService
+    private backend: RestApiServiceService,
+    private checker: CheckerService
   ) {}
   rangosEdad: string[] = ['18-25', '25-35', '35-50', '50+'];
   countries: any = [];
@@ -21,64 +23,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.countries = this.countryService.getCountries();
     console.log(this.countries);
-  }
-  isAlphaNumeric(value: string) {
-    var code, i, len;
-
-    for (i = 0, len = value.length; i < len; i++) {
-      code = value.charCodeAt(i);
-      if (
-        !(code > 47 && code < 58) && // numeric (0-9)
-        !(code > 64 && code < 91) && // upper alpha (A-Z)
-        !(code > 96 && code < 123)
-      ) {
-        // lower alpha (a-z)
-        return false;
-      }
-    }
-    return true;
-  }
-
-  verifyName(
-    name: string,
-    minimum: number = 1,
-    maximum: number = 100,
-    isAlphaNumeric: boolean = false
-  ): boolean {
-    const isEmpty = name === '' || !name;
-
-    const alphaNumeric: boolean = !isAlphaNumeric || this.isAlphaNumeric(name);
-    const lengh = name.length >= minimum && name.length < maximum;
-
-    return alphaNumeric && !isEmpty && lengh;
-  }
-
-  checkUpperLowerCaseNumber(value: string) {
-    let result = { hasUpper: false, hasLower: false, hasNumber: false };
-    var i = 0;
-    var character = '';
-    while (i <= value.length) {
-      character = value.charAt(i);
-      if (!isNaN(character as any)) result.hasNumber = true;
-      if (character == character.toUpperCase()) result.hasUpper = true;
-
-      if (character == character.toLowerCase()) result.hasLower = true;
-
-      i++;
-    }
-    return result;
-  }
-  verifyPassword(password: string) {
-    const textValid = this.verifyName(password, 10, 16, true);
-    const upperLowerAndNumber = this.checkUpperLowerCaseNumber(password);
-
-    const result =
-      textValid &&
-      upperLowerAndNumber.hasLower &&
-      upperLowerAndNumber.hasNumber &&
-      upperLowerAndNumber.hasUpper;
-
-    return result;
   }
 
   validateEmail(email: string): boolean {
@@ -124,11 +68,11 @@ export class RegisterComponent implements OnInit {
   }
 
   verifyData(data: any) {
-    const nameCheck = this.verifyName(data.name, 5, 30, false);
-    const usernameCheck = this.verifyName(data.username);
-    const passwordIsValid = this.verifyPassword(data.password);
-    const mailIsValid = true || this.validateEmail(data.mail);
-    const othersFieldsFilled = this.validateFullValues(data);
+    const nameCheck = this.checker.verifyName(data.name, 5, 30, false);
+    const usernameCheck = this.checker.verifyName(data.username);
+    const passwordIsValid = this.checker.verifyPassword(data.password);
+    const mailIsValid = true || this.checker.validateEmail(data.mail);
+    const othersFieldsFilled = this.checker.validateFullValues(data);
     this.writeErrorMessage(
       nameCheck,
       usernameCheck,

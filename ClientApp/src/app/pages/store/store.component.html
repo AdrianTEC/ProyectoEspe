@@ -17,8 +17,12 @@
                 <div class="carShortIconInactive" *ngIf="objIsEmpty(team1.scudery)">
                     <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
                 </div>
-            </div>
 
+            </div>
+            <div class="textAndInput">
+                <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre del Equipo</div>
+                <input class="inputBackground" style="width: 80%;" #teamName>
+            </div>
 
 
         </div>
@@ -26,12 +30,19 @@
     <div class="separator"></div>
     <div class="smallMargin"></div>
     <div class="storeButtonContainer">
-        <div class="cardButton" (click)="seeingDrivers=true">
-            <div class="simpleText">Pilotos</div>
+        <div style="display: flex;">
+            <div class="cardButton" (click)="seeingDrivers=true">
+                <div class="simpleText">Pilotos</div>
+            </div>
+            <div class="cardButton" (click)="seeingDrivers=false">
+                <div class="simpleText">Escuderías</div>
+            </div>
         </div>
-        <div class="cardButton" (click)="seeingDrivers=false">
-            <div class="simpleText">Escuderías</div>
+
+        <div class="cardButton" (click)="pay(teamName.value)">
+            <div class="simpleText" style="color: white;">Pagar {{total}}$</div>
         </div>
+
     </div>
     <div class="smallMargin"></div>
     <div class="driversContainer" *ngIf="seeingDrivers">

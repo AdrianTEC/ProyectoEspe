@@ -27,8 +27,8 @@
 
 .storeButtonContainer{
     display: flex;
-    width: 80%;
-    justify-content: flex-start;
+    width: 73%;
+    justify-content: space-between;
     align-items: center;
     flex-direction: row;
 
@@ -36,7 +36,7 @@
 .teamShortContainer{
     display: flex;
     width: 80%;
-
+justify-content: space-between;;
 }
 .teamGroup{
     display: flex;
@@ -71,6 +71,23 @@
     margin: 3px 3px;
     background-color: var(--background);
 }
+
+.moneyBox{
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    user-select: none;
+    border-radius: 50px;
+    padding: 4px 20px;
+    border: 1px solid #aaaaaa;
+    
+    margin: 3px 3px;
+    background-color: var(--background);
+    min-width: 100px;
+
+}
+
 .cardButton:hover{
     transform: translate(0 ,-4px);
     transition: 0.3s;

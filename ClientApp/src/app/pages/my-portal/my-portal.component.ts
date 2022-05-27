@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Driver } from 'src/app/models/models';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
+import { SesionService } from 'src/app/Services/sesion-service.service';
 
 @Component({
   selector: 'app-my-portal',
@@ -10,23 +11,54 @@ import { RestApiServiceService } from 'src/app/Services/rest-api-service.service
 })
 export class MyPortalComponent implements OnInit {
   pilots: Driver[] = [];
-  constructor(private restApi: RestApiServiceService, private router: Router) {}
+  constructor(
+    private restApi: RestApiServiceService,
+    private router: Router,
+    private sesionService: SesionService
+  ) {}
 
+  myteams: any[] = [];
   ngOnInit(): void {
     this.getDrivers();
+    localStorage.removeItem('currentAction');
   }
 
+  /**
+   * 
+  [
+  {
+    "id": 0,
+    "name": "string",
+    "scuderia": {
+      "id": 0,
+      "name": "string",
+      "price": 0
+    },
+    "drivers": [
+      {
+        "id": 0,
+        "name": "string",
+        "country": "string",
+        "price": 0
+      }
+    ]
+  }
+]
+   * 
+   */
   getDrivers(): void {
     this.pilots.push;
-    this.restApi.get_request('Drivers', null).subscribe((result: any[]) => {
-      this.pilots = result.splice(0, 5); //REMOVER ESTO
-      this.pilots.forEach((driver) => {
-        driver.country = 'https://countryflagsapi.com/png/' + driver.country;
+    this.restApi
+      .get_request('PlayerTeams/' + this.sesionService.getUser().username, null)
+      .subscribe((result: any[]) => {
+        this.myteams = result;
       });
-      console.log(this.pilots);
-    });
   }
 
+  replaceComponent(component: any): void {
+    localStorage.setItem('currentAction', 'replacing');
+    this.router.navigateByUrl('/pages/store');
+  }
   createNewTeam(): void {
     this.router.navigateByUrl('/pages/store');
     localStorage.setItem('currentAction', 'creatingTeam');
