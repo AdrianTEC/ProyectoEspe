@@ -26,12 +26,7 @@ export class LoginComponent implements OnInit {
       console.log(userAuth);
 
       if (!userAuth.isPlayer) return;
-      this.backend
-        .get_request('Players/' + username, null)
-        .subscribe((userData) => {
-          this.sesionService.setUser(JSON.stringify(userData));
-          this.router.navigateByUrl('/pages');
-        });
+      this.sesionService.getUserFromDb(username);
     });
   }
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { RestApiServiceService } from './rest-api-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SesionService {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private backend: RestApiServiceService) {}
 
   setUser(data: any): void {
     localStorage.setItem('User', data);
@@ -19,5 +20,14 @@ export class SesionService {
   logout(): void {
     localStorage.removeItem('User');
     this.router.navigateByUrl('/auth');
+  }
+
+  getUserFromDb(username: string) {
+    this.backend
+      .get_request('Players/' + username, null)
+      .subscribe((userData) => {
+        this.setUser(JSON.stringify(userData));
+        this.router.navigateByUrl('/pages');
+      });
   }
 }

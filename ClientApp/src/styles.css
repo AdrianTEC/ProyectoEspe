@@ -243,10 +243,10 @@ input:-webkit-autofill:focus {
 .carImageContainer{
     display: flex;
     justify-content: center;
-    align-items: center;
     top: -2%;
     position: absolute;
     max-height: 20px;
+    align-items: flex-end;
 }
 .pilotImageContainer{
     display: flex;

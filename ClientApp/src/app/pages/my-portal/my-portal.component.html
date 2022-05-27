@@ -15,67 +15,18 @@
                     <div class="topTitle">Posición en el Top</div>
                     <div class="minMargin"></div>
                     <div class="topScroll">
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
+
+                        <div class="scrollItem" *ngFor="let item of top">
+                            <div class="scrollPositionText" *ngIf="team.name=== item.teamName">{{item.teamName}}</div>
+                            <div class="scrollPositionText" *ngIf="team.name=== item.teamName">{{item.score}}pts</div>
+                            <div class="scrollPositionTextDisable" *ngIf="team.name!== item.teamName">{{item.teamName}}
+                            </div>
+                            <div class="scrollPositionTextDisable" *ngIf="team.name!== item.teamName">{{item.score}}pts
+                            </div>
                         </div>
 
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
 
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
 
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
                     </div>
                 </div>
 
@@ -104,10 +55,10 @@
                         <div class="carImageContainer">
                             <img src="assets/images/c (2).png" class="carImage">
                         </div>
-                        <div class="simpleText">Ferraro</div>
+                        <div class="simpleText">{{team.scuderia.name}}</div>
                         <div class="separator"></div>
                         <div class="priceAndFlag">
-                            <div class="simpleText">75000$</div>
+                            <div class="simpleText">{{team.scuderia.price}}$</div>
                             <img class="flag" src="https://countryflagsapi.com/png/Italy">
 
                         </div>

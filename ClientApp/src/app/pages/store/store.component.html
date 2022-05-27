@@ -19,9 +19,11 @@
                 </div>
 
             </div>
+
+
             <div class="textAndInput">
                 <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre del Equipo</div>
-                <input class="inputBackground" style="width: 80%;" #teamName>
+                <input class="inputBackground" style="width: 80%;" id="teamName" #team>
             </div>
 
 
@@ -39,7 +41,7 @@
             </div>
         </div>
 
-        <div class="cardButton" (click)="pay(teamName.value) " *ngIf="currentAction==='creatingTeam'">
+        <div class="cardButton" (click)="pay()" *ngIf="currentAction==='creatingTeam'">
             <div class="simpleText" style="color: white;">Pagar {{total}}$</div>
         </div>
 

@@ -11,6 +11,7 @@ import { SesionService } from 'src/app/Services/sesion-service.service';
 })
 export class MyPortalComponent implements OnInit {
   pilots: Driver[] = [];
+  top: any[] = [];
   constructor(
     private restApi: RestApiServiceService,
     private router: Router,
@@ -20,7 +21,11 @@ export class MyPortalComponent implements OnInit {
   myteams: any[] = [];
   ngOnInit(): void {
     this.getDrivers();
+    this.getTop();
+    this.fillWithDummy();
+
     localStorage.removeItem('currentAction');
+    this.sesionService.getUserFromDb(this.sesionService.getUser().username);
   }
 
   /**
@@ -61,6 +66,14 @@ export class MyPortalComponent implements OnInit {
         });
       });
   }
+  getTop(): void {
+    this.restApi
+      .get_request('PublicLeague', null)
+      .subscribe((result: any[]) => {
+        console.log(result);
+        this.top = result;
+      });
+  }
 
   replaceComponent(component: any): void {
     localStorage.setItem('currentAction', 'replacing');
@@ -70,5 +83,31 @@ export class MyPortalComponent implements OnInit {
   createNewTeam(): void {
     this.router.navigateByUrl('/pages/store');
     localStorage.setItem('currentAction', 'creatingTeam');
+  }
+
+  sortTop(): void {
+    const x = this.top;
+    x.sort((value1, value2) => {
+      return value2.score - value1.score;
+    });
+    this.top = x;
+  }
+
+  fillWithDummy(): void {
+    this.restApi
+      .get_requestByUrl(
+        'https://random-word-api.herokuapp.com/word?number=10',
+        null
+      )
+      .subscribe((words) => {
+        words.forEach((word: string) => {
+          this.top.push({
+            playerUsername: word,
+            teamName: word,
+            score: Math.floor(Math.random() * 500),
+          });
+        });
+        this.sortTop();
+      });
   }
 }

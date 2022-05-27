@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Driver, Scuderia } from 'src/app/models/models';
 import { CheckerService } from 'src/app/Services/checker.service';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
@@ -26,7 +28,9 @@ export class StoreComponent implements OnInit {
     private restApi: RestApiServiceService,
     private sesionService: SesionService,
     private swalService: SwalService,
-    private checker: CheckerService
+    private checker: CheckerService,
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   addPilotToCar(thing: any) {
@@ -52,6 +56,8 @@ export class StoreComponent implements OnInit {
           )
           .then((value) => {
             console.log(value);
+            if (value.isConfirmed) {
+            }
           });
       else {
         this.swalService.showError(
@@ -65,6 +71,9 @@ export class StoreComponent implements OnInit {
     if (this.team1.drivers.length < 5 && !this.team1.drivers.includes(thing)) {
       this.team1.drivers.push(thing);
       this.total += thing.price;
+      this._snackBar.open('Piloto Agregado', '', {
+        duration: 1000,
+      });
     } else
       this.swalService.showError(
         'Acción inválida',
@@ -73,9 +82,10 @@ export class StoreComponent implements OnInit {
   }
 
   addCarToCar(thing: any) {
-    if (this.objIsEmpty(this.team1.scudery)) {
-      this.team1.scudery = thing;
-    }
+    this.team1.scudery = thing;
+    this._snackBar.open('Escudería cambiada', '', {
+      duration: 3000,
+    });
   }
   objIsEmpty(value: any) {
     return Object.keys(value).length === 0;
@@ -108,7 +118,16 @@ export class StoreComponent implements OnInit {
     });
   }
 
-  checkPayment(teamName: string, drivers: any): boolean {
+  checkPayment(team: any, drivers: any): boolean {
+    if (!team) {
+      this.swalService.showError(
+        'Nombre inválido',
+        'Solo puede ingresar un conjunto de valores alfanuméricos no vacío'
+      );
+
+      return false;
+    }
+    const teamName = team;
     const hasEnoughMoney = this.sesionService.getUser().money >= this.total;
     const haveFiveDrivers = this.team1.drivers.length == 5;
     const haveAScudery = Object.values(this.team1.scudery).length > 1;
@@ -139,7 +158,9 @@ export class StoreComponent implements OnInit {
 
     return hasEnoughMoney && haveFiveDrivers && haveAScudery;
   }
-  pay(teamName: string): void {
+  pay(): void {
+    const teamName = (document.getElementById('teamName') as HTMLInputElement)
+      .value;
     const drivers = this.team1.drivers.map((driver: any) => {
       return driver.id;
     });
@@ -152,7 +173,6 @@ export class StoreComponent implements OnInit {
         drivers: drivers,
       };
 
-      console.log(survey);
       this.submitPay(survey);
     }
   }
@@ -164,6 +184,8 @@ export class StoreComponent implements OnInit {
         'Equipo creado',
         'El equipo fue creado con éxito'
       );
+
+      this.router.navigateByUrl('pages/myPortal');
     });
   }
 }
