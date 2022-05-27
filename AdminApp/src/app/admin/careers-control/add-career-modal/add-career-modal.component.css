@@ -64,3 +64,8 @@
     transform: translate(0,-5px);
     transition: 200ms;
 }
+
+.required {
+    color: red;
+    align-self: flex-end;
+}

@@ -1,4 +1,5 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Championship } from 'src/app/models/models';
@@ -11,6 +12,8 @@ import { SwalService } from 'src/app/Services/swal-service.service';
   styleUrls: ['./add-championship-modal.component.css'],
 })
 export class AddChampionshipModalComponent implements OnInit {
+  showRequired: Boolean = false;
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.code === 'KeyY') {
@@ -39,11 +42,14 @@ export class AddChampionshipModalComponent implements OnInit {
   }
 
   verifyFieldsAreFill(c: Championship): boolean {
-    if (c.name.length == 0) {
+    var isValid = (c.name !== "" && c.finishingDate !== "" && c.startingDate !== "" && c.finishingTime !== "Invalid date"
+                  && c.startingTime !== "Invalid date")
+    if (!isValid) {
       this.swal.showError(
         'Datos insuficientes',
         'Los datos suministrados son insuficientes. Por favor verifique de nuevo los valores ingresados e intente de nuevo'
       );
+      this.showRequired = true;
       return false;
     }
     return true;
