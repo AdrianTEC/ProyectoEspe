@@ -8,9 +8,9 @@
     </div>
 
     <div class="navBarContainer">
-        <div class="navBarText moneyBackground" style="color: black !important;">Fondos: 16000$</div>
-        <div class="navBarButton" style="display: flex; align-items: center;">
-            <div class="navBarText">Adrian Gonzalez</div>
+        <div class="navBarText moneyBackground" style="color: #E5FFAD!important;">Fondos: {{user.money}}$</div>
+        <div mat-button [matMenuTriggerFor]="menu" class="navBarButton" style="display: flex; align-items: center;">
+            <div class="navBarText">{{user.username}}</div>
             <mat-icon style="color: white ;">
                 account_circle
             </mat-icon>
@@ -18,6 +18,13 @@
 
     </div>
 
+    <mat-menu #menu="matMenu">
+
+        <div mat-menu-item style="display:flex; align-items: center;" (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <div class="simpleText" style="color: black;">Logout</div>
+        </div>
+    </mat-menu>
 
 
 </div>

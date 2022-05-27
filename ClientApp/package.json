@@ -23,11 +23,13 @@
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
     "angular-material-datepicker": "^1.0.2",
+    "md5": "^2.3.0",
     "moment": "^2.29.3",
     "ng-pick-datetime": "^7.0.0",
     "rxjs": "~6.6.0",
     "svg-country-flags": "^1.2.10",
     "sweetalert2": "^11.4.13",
+    "ts-md5": "^1.2.11",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

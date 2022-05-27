@@ -19,8 +19,8 @@
 }
 
 .moneyBackground{
-    background-color: #f3f3f3;
-    width: 120px;
+    background: linear-gradient(90.25deg, #020252 -16.66%, #272778 113.3%);
+    width: 190px;
     text-align: center;
     display: flex;
     align-items: center;

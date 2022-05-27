@@ -80,6 +80,7 @@
                 </div>
 
                 <div class="teamCardContainer">
+
                     <div class="pilotCard cardOverride" *ngFor="let driver of pilots">
                         <div class="pilotImageContainer">
                             <img src="assets/images/p (2).png" class="pilotImage">
@@ -92,8 +93,8 @@
                             <img class="flag" src={{driver.country}}>
                         </div>
 
-                        <div class="cardButton">
-                            <div class="simpleText" style="color: white;">Comprar</div>
+                        <div class="replaceHover">
+                            <div class="simpleText" style="color: white; font-size:clamp(14px,1vw,2vw)">Reemplazar</div>
                         </div>
 
                     </div>
@@ -110,7 +111,9 @@
                             <img class="flag" src="https://countryflagsapi.com/png/Italy">
 
                         </div>
-
+                        <div class="replaceHover">
+                            <div class="simpleText" style="color: white; font-size:clamp(14px,1vw,2vw)">Reemplazar</div>
+                        </div>
                     </div>
 
                 </div>
@@ -120,115 +123,32 @@
         </div>
 
         <div class="teamBox">
-            <div class="medMargin"></div>
 
-            <div class="title teamTitle">EQUIPOOOOO</div>
+            <div class="bigMargin"></div>
 
-            <div class="medMargin"></div>
-            <div class="teamHorizontalContainer">
+            <div class="smallCenterTeamBox">
                 <div class="medMargin"></div>
-                <div class="topContainer">
-                    <div class="topTitle">Posición en el Top</div>
-                    <div class="minMargin"></div>
-                    <div class="topScroll">
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
 
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
+                <div class="simpleText" style="color: white;">El equipo debe estar completo para poder participar en la
+                    liga
+                    pública</div>
+                <div class="medMargin"></div>
 
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                        <div class="scrollItem">
-                            <div class="scrollPositionText">Equipo Ludiums</div>
-                            <div class="scrollPositionText">56pts</div>
-                        </div>
-                    </div>
+                <div class="createButton" (click)="createNewTeam()">
+                    <div class="simpleText" style="color: white;">Crear Equipo</div>
                 </div>
 
-                <div class="teamCardContainer">
-                    <div class="pilotCard" *ngFor="let driver of pilots">
-
-                        <img src="assets/images/p (2).png" class="pilotImage" alt="">
-                        <div class="simpleText">{{driver.name}}</div>
-                        <div class="separator"></div>
-                        <div class="priceAndFlag">
-                            <div class="simpleText">{{driver.price}}$</div>
-                            <img class="flag" src={{driver.country}} alt="">
-
-                        </div>
-
-                    </div>
-                    <div class="carCard">
-
-                        <div class="carImageContainer">
-                            <img src="assets/images/c (1).png" class="carImage">
-                        </div>
-                        <div class="simpleText">Ferraro</div>
-                        <div class="separator"></div>
-                        <div class="priceAndFlag">
-                            <div class="simpleText">75000$</div>
-                            <img class="flag" src="https://countryflagsapi.com/png/Italy">
-
-                        </div>
-
-                    </div>
-
-                </div>
 
             </div>
 
-        </div>
 
+        </div>
+        <div class="bigMargin"></div>
+        <div class="bigMargin"></div>
+        <div class="bigMargin"></div>
+        <div class="bigMargin"></div>
+        <div class="bigMargin"></div>
+        <div class="bigMargin"></div>
 
     </div>
 
