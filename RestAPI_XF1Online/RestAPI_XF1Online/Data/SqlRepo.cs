@@ -149,13 +149,29 @@ namespace RestAPI_XF1Online.Data
         {
             playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
             playerTeam.Scuderia = GetScuderiaById(playerTeam.Scuderia.Id);
+            playerTeam.Player.Money -= playerTeam.Scuderia.Price;
             var drivers = playerTeam.Drivers;
             playerTeam.Drivers = new List<Driver>();
             foreach(Driver driver in drivers)
             {
-                playerTeam.Drivers.Add(GetDriverById(driver.Id));
+                var driver1 = GetDriverById(driver.Id);
+                playerTeam.Drivers.Add(driver1);
+                playerTeam.Player.Money -= driver1.Price;
             }
             _context.PlayerTeams.Add(playerTeam);
+            _context.Players.Update(playerTeam.Player);
+
+            Ranking ranking = new Ranking();
+            ranking.Championship = GetActiveChampionship();
+            ranking.PlayerTeam = playerTeam;
+            ranking.Score = 0;
+            _context.Rankings.Add(ranking);
+
+        }
+
+        public void DeletePlayerTeamsByUsername(string username)
+        {
+            _context.PlayerTeams.RemoveRange(_context.PlayerTeams.Where(pt => pt.Player.Username == username));
         }
 
         public Player GetPlayerByUsername(string username)

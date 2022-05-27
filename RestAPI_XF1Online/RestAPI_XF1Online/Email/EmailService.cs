@@ -15,7 +15,7 @@ namespace RestAPI_XF1Online.Email
 
             MailMessage message = new MailMessage(addressFrom, addressTo);
 
-            var hyperlink = "https://restapixf1onlinedeploy.azurewebsites.net/players/auth/" + player.Username;
+            var hyperlink = "https://localhost:7133/players/auth/" + player.Username;
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.Load(@"Email/emailFormat.html");

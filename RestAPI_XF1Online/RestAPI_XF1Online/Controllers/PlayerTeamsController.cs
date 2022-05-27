@@ -30,7 +30,7 @@ namespace RestAPI_XF1Online.Controllers
 
         // POST: teams/
         [HttpPost]
-        public ActionResult<PlayerTeamReadDto> CreateRace(PlayerTeamCreateDto playerTeamCreateDto)
+        public ActionResult<PlayerTeamReadDto> CreatePlayerTeam(PlayerTeamCreateDto playerTeamCreateDto)
         {
             var playerTeamModel = _mapper.Map<PlayerTeam>(playerTeamCreateDto);
             _repository.CreatePlayerTeam(playerTeamModel);
@@ -40,5 +40,15 @@ namespace RestAPI_XF1Online.Controllers
 
             return CreatedAtRoute(nameof(GetPlayerTeamsByUsername), new { PlayerUsername = playerTeamModel.Player }, playerTeamReadDto);
         }
+
+        [HttpDelete("{username}")]
+        public ActionResult DeletePlayerTeamsByUsername(string username)
+        {
+            _repository.DeletePlayerTeamsByUsername(username);
+            _repository.SaveChanges();
+
+            return Ok();
+        }
+
     }
 }

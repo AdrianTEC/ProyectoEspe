@@ -63,8 +63,8 @@ namespace RestAPI_XF1Online.Controllers
             }
         }
 
-        // POST: championships/deleteAll
-        [HttpPost("deleteAll")]
+        // DELETE: championships/deleteAll
+        [HttpDelete("deleteAll")]
         public ActionResult DeleteAllChampionships()
         {
             _repository.DeleteAllChampionships();
