@@ -2,8 +2,8 @@
 
 
     <div class="teamShortContainer">
-        <div class="teamShortContainer">
-            <div class="teamGroup" *ngIf="currentAction==='creatingTeam'">
+        <div class="teamShortContainer" *ngIf="currentAction==='creatingTeam'">
+            <div class="teamGroup">
 
                 <div *ngFor="let number of [1,2,3,4,5]">
                     <mat-icon *ngIf="number <= team1.drivers.length" class="pilotSphereActive">account_circle</mat-icon>
@@ -39,9 +39,12 @@
             </div>
         </div>
 
-        <div class="cardButton" (click)="pay(teamName.value)">
+        <div class="cardButton" (click)="pay(teamName.value) " *ngIf="currentAction==='creatingTeam'">
             <div class="simpleText" style="color: white;">Pagar {{total}}$</div>
         </div>
+
+
+
 
     </div>
     <div class="smallMargin"></div>

@@ -52,11 +52,19 @@ export class MyPortalComponent implements OnInit {
       .get_request('PlayerTeams/' + this.sesionService.getUser().username, null)
       .subscribe((result: any[]) => {
         this.myteams = result;
+
+        this.myteams.forEach((team) => {
+          team.drivers.forEach((driver: any) => {
+            driver.country =
+              'https://countryflagsapi.com/png/' + driver.country;
+          });
+        });
       });
   }
 
   replaceComponent(component: any): void {
     localStorage.setItem('currentAction', 'replacing');
+    localStorage.setItem('selectedDriver', JSON.stringify(component));
     this.router.navigateByUrl('/pages/store');
   }
   createNewTeam(): void {

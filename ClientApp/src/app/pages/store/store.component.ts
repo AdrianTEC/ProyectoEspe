@@ -30,6 +30,38 @@ export class StoreComponent implements OnInit {
   ) {}
 
   addPilotToCar(thing: any) {
+    if (this.currentAction === 'replacing') {
+      this.total = thing.price;
+      const hasEnoughMoney = this.sesionService.getUser().money >= this.total;
+      const componentBeingReplaced = JSON.parse(
+        localStorage.getItem('selectedDriver') as any
+      );
+
+      if (hasEnoughMoney)
+        this.swalService
+          .htmloptionSwal(
+            'Compra de un nuevo piloto',
+            'Desear reemplazar : ' +
+              componentBeingReplaced.name +
+              '<br> por: ' +
+              thing.name,
+            'No',
+            'Sí',
+            '',
+            null
+          )
+          .then((value) => {
+            console.log(value);
+          });
+      else {
+        this.swalService.showError(
+          'Fondos insuficientes',
+          'Actualmente no cuenta con los fondos para realizar esta compra'
+        );
+      }
+      return;
+    }
+
     if (this.team1.drivers.length < 5 && !this.team1.drivers.includes(thing)) {
       this.team1.drivers.push(thing);
       this.total += thing.price;
