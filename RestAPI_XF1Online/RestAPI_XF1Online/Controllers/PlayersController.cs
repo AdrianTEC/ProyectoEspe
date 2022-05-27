@@ -31,7 +31,7 @@ namespace RestAPI_XF1Online.Controllers
 
         // GET: players/{username}
         [HttpGet("auth/{username}")]
-        public ActionResult AccountAuthentification(string username)
+        public ActionResult AccountConfirmation(string username)
         {
             _repository.AuthPlayer(username);
             _repository.SaveChanges();

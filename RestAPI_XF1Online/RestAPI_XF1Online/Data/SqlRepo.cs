@@ -170,6 +170,7 @@ namespace RestAPI_XF1Online.Data
             {
                 throw new InvalidDataException("An account already exists with the specified email.");
             }
+            player.Money = 100;
             player.ConfirmedAccount = false;
             _context.Players.Add(player);
         }
@@ -208,5 +209,13 @@ namespace RestAPI_XF1Online.Data
             return ranking;
         }
 
+        public Login ValidatePlayerCredentials(Login login)
+        {
+            var player = _context.Players.FirstOrDefault(p => p.Username == login.Username && 
+                                                         p.Password == login.Password && p.ConfirmedAccount == true);
+
+            login.IsPlayer = (player == null) ? false : true;
+            return login;
+        }
     }
 }

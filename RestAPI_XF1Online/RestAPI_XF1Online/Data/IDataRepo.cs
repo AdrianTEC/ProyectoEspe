@@ -34,5 +34,7 @@ namespace RestAPI_XF1Online.Data
 
         IEnumerable<Ranking> GetCurrentPublicLeagueRanking();
 
+        Login ValidatePlayerCredentials(Login login);
+
     }
 }

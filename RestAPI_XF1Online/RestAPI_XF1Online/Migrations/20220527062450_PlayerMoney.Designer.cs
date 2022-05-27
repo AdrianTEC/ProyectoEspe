@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220527062450_PlayerMoney")]
+    partial class PlayerMoney
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

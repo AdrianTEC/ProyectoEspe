@@ -9,6 +9,7 @@
         public string Email { get; set; }
         public string Country { get; set; }
         public string AgeRange { get; set; }
+        public int Money { get; set; }
         public bool ConfirmedAccount { get; set; }
     }
 }
