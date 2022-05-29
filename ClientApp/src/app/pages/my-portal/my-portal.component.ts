@@ -22,7 +22,7 @@ export class MyPortalComponent implements OnInit {
   ngOnInit(): void {
     this.getDrivers();
     this.getTop();
-    this.fillWithDummy();
+    //this.fillWithDummy();
 
     localStorage.removeItem('currentAction');
     this.sesionService.getUserFromDb(this.sesionService.getUser().username);
