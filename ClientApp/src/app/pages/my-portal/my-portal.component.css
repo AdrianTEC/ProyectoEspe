@@ -71,7 +71,15 @@
     display: flex;
 
 }
-
+.scrollPositionTextDisable{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: clamp(11px, 1vw, 2vw);
+    color: rgb(122, 122, 122);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+}
 
 
 .replaceHover{

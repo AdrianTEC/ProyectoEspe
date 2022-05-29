@@ -9,6 +9,7 @@ import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     PagesComponent,
@@ -18,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
   ],
   imports: [
     CommonModule,
+    MatSnackBarModule,
     PagesRoutingModule,
     MatIconModule,
     MatMenuModule,
