@@ -83,6 +83,7 @@ export class StoreComponent implements OnInit {
 
   addCarToCar(thing: any) {
     this.team1.scudery = thing;
+    this.total += thing.price;
     this._snackBar.open('Escudería cambiada', '', {
       duration: 3000,
     });
@@ -184,7 +185,7 @@ export class StoreComponent implements OnInit {
         'Equipo creado',
         'El equipo fue creado con éxito'
       );
-
+      this.sesionService.getUserFromDb(this.sesionService.getUser().username);
       this.router.navigateByUrl('pages/myPortal');
     });
   }
