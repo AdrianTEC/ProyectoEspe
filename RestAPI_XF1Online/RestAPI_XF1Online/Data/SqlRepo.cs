@@ -172,6 +172,9 @@ namespace RestAPI_XF1Online.Data
         public void DeletePlayerTeamsByUsername(string username)
         {
             _context.PlayerTeams.RemoveRange(_context.PlayerTeams.Where(pt => pt.Player.Username == username));
+            var player = GetPlayerByUsername(username);
+            player.Money = 100;
+            _context.Players.Update(player);
         }
 
         public Player GetPlayerByUsername(string username)
