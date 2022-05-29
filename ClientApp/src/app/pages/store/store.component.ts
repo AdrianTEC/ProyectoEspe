@@ -82,7 +82,8 @@ export class StoreComponent implements OnInit {
   }
 
   addCarToCar(thing: any) {
-    this.total -= this.team1.scudery.price;
+    if (Object.values(this.team1.scudery).length > 0)
+      this.total -= this.team1.scudery.price;
     this.team1.scudery = thing;
     this.total += thing.price;
     this._snackBar.open('Escudería cambiada', '', {
