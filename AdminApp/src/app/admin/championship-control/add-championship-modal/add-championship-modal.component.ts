@@ -12,6 +12,9 @@ import { SwalService } from 'src/app/Services/swal-service.service';
   styleUrls: ['./add-championship-modal.component.css'],
 })
 export class AddChampionshipModalComponent implements OnInit {
+  static verifyFieldsAreFill(event: Championship) {
+      throw new Error('Method not implemented.');
+  }
   showRequired: Boolean = false;
 
   @HostListener('document:keydown', ['$event'])
