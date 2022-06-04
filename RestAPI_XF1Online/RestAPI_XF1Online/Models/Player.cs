@@ -24,5 +24,6 @@ namespace RestAPI_XF1Online.Models
         public int Money { get; set; }
         [Required]
         public bool ConfirmedAccount { get; set; } 
+        public PrivateLeague? PrivateLeague { get; set; }
     }
 }

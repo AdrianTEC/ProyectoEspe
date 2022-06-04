@@ -17,5 +17,6 @@ namespace RestAPI_XF1Online.Models
         public Scuderia Scuderia { get; set; }
         [Required]
         public virtual List<Driver> Drivers { get; set; }
+        public PrivateLeague? PrivateLeague { get; set; }
     }
 }

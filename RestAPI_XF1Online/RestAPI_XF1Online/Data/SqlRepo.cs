@@ -29,10 +29,10 @@ namespace RestAPI_XF1Online.Data
             championship.Id = CreateRandomChampionshipKey();
             championship.IsActive = true;
             _context.Championships.Add(championship);
-            CreatePublicLeague(championship);
+            CreateRankings(championship);
         }
 
-        private void CreatePublicLeague(Championship championship)
+        private void CreateRankings(Championship championship)
         {
             List<PlayerTeam> playerTeams = (List<PlayerTeam>) GetAllPlayerTeams();
 
@@ -41,6 +41,7 @@ namespace RestAPI_XF1Online.Data
                 Ranking ranking = new Ranking();
                 ranking.Championship = championship;
                 ranking.PlayerTeam = playerTeam;
+                ranking.PrivateLeague = playerTeam.PrivateLeague;
                 ranking.Score = 0;
                 _context.Rankings.Add(ranking);
             }
@@ -137,7 +138,7 @@ namespace RestAPI_XF1Online.Data
 
         private IEnumerable<PlayerTeam> GetAllPlayerTeams()
         {
-            return _context.PlayerTeams.ToList();
+            return _context.PlayerTeams.Include("PrivateLeague").ToList();
         }
 
         public PlayerTeam GetPlayerTeamById(int id)
@@ -226,6 +227,53 @@ namespace RestAPI_XF1Online.Data
             var ranking = _context.Rankings.Where(r => r.Championship.Id == currentChampionship.Id).Include("PlayerTeam")
                 .Include("PlayerTeam.Player").ToList();
             return ranking;
+        }
+
+        public PrivateLeague GetPrivateLeagueByName(string name)
+        {
+            var privateLeague = _context.PrivateLeagues.Where(pl => pl.Name == name).Include("Rankings").FirstOrDefault();
+            return privateLeague;
+        }
+
+        public PrivateLeague GetPrivateLeagueByInvitationCode(string invitationCode)
+        {
+            return _context.PrivateLeagues.Where(pl => pl.InvitationCode == invitationCode).Include("Rankings").FirstOrDefault();
+        }
+
+        public void CreatePrivateLeague(PrivateLeague privateLeague)
+        {
+            privateLeague.Rankings = _context.Rankings
+                                    .Where(r => r.PlayerTeam.Player.Username == privateLeague.LeagueCreatorUsername).ToList();
+            privateLeague.InvitationCode = RandomString(6);
+            privateLeague.AmountOfParticipants = 1;
+            _context.PrivateLeagues.Add(privateLeague);
+
+            UpdatePrivateLeagueColumn(privateLeague, privateLeague.LeagueCreatorUsername);
+        }
+
+        public PrivateLeague AddPlayerToPrivateLeague(PrivateLeague privateLeague, string playerUsername)
+        {
+            var playerRankings = _context.Rankings.Where(r => r.PlayerTeam.Player.Username == playerUsername).ToList();
+            privateLeague.Rankings.AddRange(playerRankings);
+            privateLeague.AmountOfParticipants += 1;
+            _context.PrivateLeagues.Update(privateLeague);
+
+            UpdatePrivateLeagueColumn(privateLeague, playerUsername);
+            return privateLeague;
+        }
+
+        private void UpdatePrivateLeagueColumn(PrivateLeague privateLeague, string playerUsername)
+        {
+            var player = _context.Players.Where(p => p.Username == playerUsername).FirstOrDefault();
+            player.PrivateLeague = privateLeague;
+            _context.Players.Update(player);
+
+            var teams = GetPlayerTeamsByUsername(player.Username);
+            foreach (var team in teams)
+            {
+                team.PrivateLeague = privateLeague;
+                _context.Update(team);
+            }
         }
 
         public Login ValidatePlayerCredentials(Login login)

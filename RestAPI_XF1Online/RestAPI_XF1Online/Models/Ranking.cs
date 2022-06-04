@@ -12,5 +12,6 @@ namespace RestAPI_XF1Online.Models
         public PlayerTeam PlayerTeam { get; set; }
         [Required]
         public int Score { get; set; }
+        public PrivateLeague? PrivateLeague { get; set; }
     }
 }

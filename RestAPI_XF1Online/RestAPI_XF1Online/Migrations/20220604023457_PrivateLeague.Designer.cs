@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220604023457_PrivateLeague")]
+    partial class PrivateLeague
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("PlayerTeamsId");
 
-                    b.ToTable("DriverPlayerTeam", (string)null);
+                    b.ToTable("DriverPlayerTeam");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Championship", b =>
@@ -68,7 +70,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Championships", (string)null);
+                    b.ToTable("Championships");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Driver", b =>
@@ -92,7 +94,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Player", b =>
@@ -131,13 +133,14 @@ namespace RestAPI_XF1Online.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrivateLeagueName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Username");
 
                     b.HasIndex("PrivateLeagueName");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.PlayerTeam", b =>
@@ -170,7 +173,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("ScuderiaId");
 
-                    b.ToTable("PlayerTeams", (string)null);
+                    b.ToTable("PlayerTeams");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.PrivateLeague", b =>
@@ -191,7 +194,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("PrivateLeagues", (string)null);
+                    b.ToTable("PrivateLeagues");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Race", b =>
@@ -240,7 +243,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("ChampionshipId");
 
-                    b.ToTable("Races", (string)null);
+                    b.ToTable("Races");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
@@ -258,9 +261,6 @@ namespace RestAPI_XF1Online.Migrations
                     b.Property<int>("PlayerTeamId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PrivateLeagueName")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
@@ -270,9 +270,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasIndex("PlayerTeamId");
 
-                    b.HasIndex("PrivateLeagueName");
-
-                    b.ToTable("Rankings", (string)null);
+                    b.ToTable("Rankings");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Scuderia", b =>
@@ -292,7 +290,7 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Scuderias", (string)null);
+                    b.ToTable("Scuderias");
                 });
 
             modelBuilder.Entity("DriverPlayerTeam", b =>
@@ -314,7 +312,9 @@ namespace RestAPI_XF1Online.Migrations
                 {
                     b.HasOne("RestAPI_XF1Online.Models.PrivateLeague", "PrivateLeague")
                         .WithMany()
-                        .HasForeignKey("PrivateLeagueName");
+                        .HasForeignKey("PrivateLeagueName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PrivateLeague");
                 });
@@ -327,8 +327,8 @@ namespace RestAPI_XF1Online.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestAPI_XF1Online.Models.PrivateLeague", "PrivateLeague")
-                        .WithMany()
+                    b.HasOne("RestAPI_XF1Online.Models.PrivateLeague", null)
+                        .WithMany("Teams")
                         .HasForeignKey("PrivateLeagueName");
 
                     b.HasOne("RestAPI_XF1Online.Models.Scuderia", "Scuderia")
@@ -338,8 +338,6 @@ namespace RestAPI_XF1Online.Migrations
                         .IsRequired();
 
                     b.Navigation("Player");
-
-                    b.Navigation("PrivateLeague");
 
                     b.Navigation("Scuderia");
                 });
@@ -367,10 +365,6 @@ namespace RestAPI_XF1Online.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestAPI_XF1Online.Models.PrivateLeague", null)
-                        .WithMany("Rankings")
-                        .HasForeignKey("PrivateLeagueName");
-
                     b.Navigation("Championship");
 
                     b.Navigation("PlayerTeam");
@@ -383,7 +377,7 @@ namespace RestAPI_XF1Online.Migrations
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.PrivateLeague", b =>
                 {
-                    b.Navigation("Rankings");
+                    b.Navigation("Teams");
                 });
 #pragma warning restore 612, 618
         }
