@@ -11,10 +11,6 @@ namespace RestAPI_XF1Online.Profiles
         {
             CreateMap<PlayerTeam, PlayerTeamReadDto>();
 
-            CreateMap<int, Driver>()
-                .ForMember(x => x.Id,
-                    opt => opt.MapFrom(src => src));
-
             CreateMap<PlayerTeamCreateDto, PlayerTeam>()
                 .ForMember(x => x.Drivers,
                     opt => opt.MapFrom(src => src.Drivers));

@@ -35,10 +35,14 @@ namespace RestAPI_XF1Online.Data
 
         IEnumerable<Ranking> GetCurrentPublicLeagueRanking();
 
+        PlayerNotification CreatePrivateLeagueJoinRequest(PrivateLeague privateLeague, string playerUsername);
+        IEnumerable<PlayerNotification> GetNotificationsByUsername(string playerUsername);
+        void AcceptPlayerInvite(int notificationId);
+        void DeclineNotification(int notificationId);
+
         PrivateLeague GetPrivateLeagueByName(string name);
         PrivateLeague GetPrivateLeagueByInvitationCode(string invitationCode);
         void CreatePrivateLeague(PrivateLeague privateLeague);
-        PrivateLeague AddPlayerToPrivateLeague(PrivateLeague privateLeague, string playerUsername);
 
         Login ValidatePlayerCredentials(Login login);
 

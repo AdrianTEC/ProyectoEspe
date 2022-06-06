@@ -28,19 +28,27 @@ namespace RestAPI_XF1Online.Controllers
             return Ok(_mapper.Map<PrivateLeagueReadDto>(privateLeague));
         }
 
-        // POST: privateLeague/join/
-        [HttpPost("join", Name = "GetPrivateLeagueByInvitationCode")]
-        public ActionResult<PrivateLeagueReadDto> GetPrivateLeagueByInvitationCode(JoinPrivateLeagueDto joinInfo)
+        // POST: privateLeague/joinRequest/
+        [HttpPost("joinRequest", Name = "JoinRequestByInvitationCode")]
+        public ActionResult<PlayerNotificationReadDto> JoinRequestByInvitationCode(JoinPrivateLeagueDto joinInfo)
         {
-            var privateLeague = _repository.GetPrivateLeagueByInvitationCode(joinInfo.InvitationCode);
-            if (privateLeague == null)
-                return BadRequest("No existe una liga privada con ese código de acceso");
-            privateLeague = _repository.AddPlayerToPrivateLeague(privateLeague, joinInfo.PlayerUsername);
-            _repository.SaveChanges();
+            try
+            {
+                var privateLeague = _repository.GetPrivateLeagueByInvitationCode(joinInfo.InvitationCode);
+                if (privateLeague == null)
+                    return BadRequest("No existe una liga privada con ese código de acceso");
+                var notification = _repository.CreatePrivateLeagueJoinRequest(privateLeague, joinInfo.PlayerUsername);
+                var notificationReadDto = _mapper.Map<PlayerNotificationReadDto>(notification);
+                _repository.SaveChanges();
 
-            var privateLeagueReadDto = _mapper.Map<PrivateLeagueReadDto>(privateLeague);
+                //var privateLeagueReadDto = _mapper.Map<PrivateLeagueReadDto>(privateLeague);
+                //privateLeague = _repository.AddPlayerToPrivateLeague(privateLeague, joinInfo.PlayerUsername);
 
-            return CreatedAtRoute(nameof(GetPrivateLeagueByName), new { Name = privateLeague.Name }, privateLeagueReadDto);
+                return Ok(notificationReadDto);
+            }catch (InvalidDataException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST: privateLeague/
