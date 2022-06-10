@@ -12,6 +12,8 @@ import { SwalService } from 'src/app/Services/swal-service.service';
   styleUrls: ['./add-career-modal.component.css'],
 })
 export class AddCareerModalComponent implements OnInit {
+  showRequired: Boolean = false;
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.code === 'KeyY') {
@@ -52,20 +54,14 @@ export class AddCareerModalComponent implements OnInit {
   }
 
   verifyFieldsAreFill(c: Race): boolean {
-    if (
-      c.name === '' ||
-      c.trackName === '' ||
-      c.country === '' ||
-      c.championshipId === '' ||
-      c.startingTime === '' ||
-      c.finishingTime === '' ||
-      c.startingDate === '' ||
-      c.finishingDate === ''
-    ) {
+    var isValid = (c.name !== '' && c.trackName !== '' && c.country !== '' && c.championshipId !== '' && c.finishingDate != ''
+                  && c.startingDate != '' && c.finishingTime != 'Invalid date' && c.startingTime != 'Invalid date')
+    if (!isValid) {
       this.swal.showError(
         'Datos insuficientes',
         'Los datos suministrados son insuficientes. Por favor verifique de nuevo los valores ingresados e intente de nuevo'
       );
+      this.showRequired = true;
       return false;
     }
     return true;
