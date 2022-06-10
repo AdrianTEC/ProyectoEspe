@@ -151,6 +151,7 @@ namespace RestAPI_XF1Online.Data
             playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
             playerTeam.Scuderia = GetScuderiaById(playerTeam.Scuderia.Id);
             playerTeam.Player.Money -= playerTeam.Scuderia.Price;
+            playerTeam.PrivateLeague = playerTeam.Player.PrivateLeague;
             var drivers = playerTeam.Drivers;
             playerTeam.Drivers = new List<Driver>();
             foreach(Driver driver in drivers)
@@ -166,6 +167,7 @@ namespace RestAPI_XF1Online.Data
             ranking.Championship = GetActiveChampionship();
             ranking.PlayerTeam = playerTeam;
             ranking.Score = 0;
+            ranking.PrivateLeague = playerTeam.Player.PrivateLeague;
             _context.Rankings.Add(ranking);
 
         }
@@ -396,9 +398,11 @@ namespace RestAPI_XF1Online.Data
         public Login ValidatePlayerCredentials(Login login)
         {
             var player = _context.Players.FirstOrDefault(p => p.Username == login.Username && 
-                                                         p.Password == login.Password && p.ConfirmedAccount == true);
+                                                         p.Password == login.Password);
 
             login.IsPlayer = (player == null) ? false : true;
+            if (login.IsPlayer)
+                login.IsConfirmed = player.ConfirmedAccount;
             return login;
         }
     }

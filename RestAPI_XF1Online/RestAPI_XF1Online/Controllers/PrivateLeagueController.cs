@@ -36,7 +36,7 @@ namespace RestAPI_XF1Online.Controllers
             {
                 var privateLeague = _repository.GetPrivateLeagueByInvitationCode(joinInfo.InvitationCode);
                 if (privateLeague == null)
-                    return BadRequest("No existe una liga privada con ese código de acceso");
+                    return BadRequest("Private league does not exist.");
                 var notification = _repository.CreatePrivateLeagueJoinRequest(privateLeague, joinInfo.PlayerUsername);
                 var notificationReadDto = _mapper.Map<PlayerNotificationReadDto>(notification);
                 _repository.SaveChanges();
