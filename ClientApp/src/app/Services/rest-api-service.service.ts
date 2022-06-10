@@ -24,11 +24,11 @@ export class RestApiServiceService {
     });
   }
 
-  post_request2(url: string, Params: object) {
+  post_request2(url: string, Params: any) {
     return this.http.post(url, Params);
   }
 
-  post_request(url: string, Params: object) {
+  post_request(url: string, Params: any) {
     return this.http.post(environment.serverUrl + url, Params);
   }
 
