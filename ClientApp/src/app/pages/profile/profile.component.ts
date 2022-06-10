@@ -3,58 +3,43 @@ import { Router } from '@angular/router';
 import { Driver } from 'src/app/models/models';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
 import { SesionService } from 'src/app/Services/sesion-service.service';
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
-  selector: 'app-my-portal',
-  templateUrl: './my-portal.component.html',
-  styleUrls: ['./my-portal.component.css'],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css'],
 })
-export class MyPortalComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   pilots: Driver[] = [];
   top: any[] = [];
   constructor(
     private restApi: RestApiServiceService,
     private router: Router,
-    private sesionService: SesionService
+    private sesionService: SesionService,
+    private route: ActivatedRoute
   ) {}
-
+  user: any;
   myteams: any[] = [];
   ngOnInit(): void {
-    this.getDrivers();
-    this.getTop();
+    this.route.queryParams.subscribe((params) => {
+      this.restApi
+        .get_request('Players/' + params.userName, null)
+        .subscribe((value) => {
+          console.log(value);
 
-
-    localStorage.removeItem('currentAction');
-    this.sesionService.getUserFromDb(this.sesionService.getUser().username);
+          this.user = value;
+          this.getDrivers();
+          this.getTop();
+          //this.fillWithDummy();
+          this.sortTop();
+        });
+    });
   }
 
-  /**
-   *
-  [
-  {
-    "id": 0,
-    "name": "string",
-    "scuderia": {
-      "id": 0,
-      "name": "string",
-      "price": 0
-    },
-    "drivers": [
-      {
-        "id": 0,
-        "name": "string",
-        "country": "string",
-        "price": 0
-      }
-    ]
-  }
-]
-   *
-   */
   getDrivers(): void {
     this.pilots.push;
     this.restApi
-      .get_request('PlayerTeams/' + this.sesionService.getUser().username, null)
+      .get_request('PlayerTeams/' + this.user.username, null)
       .subscribe((result: any[]) => {
         this.myteams = result;
 
@@ -72,7 +57,6 @@ export class MyPortalComponent implements OnInit {
       .subscribe((result: any[]) => {
         console.log(result);
         this.top = result;
-        this.sortTop();
       });
   }
 

@@ -22,6 +22,15 @@ export class CheckerService {
     }
     return true;
   }
+
+  /**
+   * Verifica que un texto sea de un rango y con la opcion de vericar si es alfanumerico
+   * @param name
+   * @param minimum
+   * @param maximum
+   * @param isAlphaNumeric
+   * @returns
+   */
   verifyName(
     name: string,
     minimum: number = 1,
@@ -51,6 +60,7 @@ export class CheckerService {
     }
     return result;
   }
+
   verifyPassword(password: string) {
     const textValid = this.verifyName(password, 10, 16, true);
     const upperLowerAndNumber = this.checkUpperLowerCaseNumber(password);

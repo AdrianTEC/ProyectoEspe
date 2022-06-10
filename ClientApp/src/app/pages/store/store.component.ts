@@ -180,6 +180,15 @@ export class StoreComponent implements OnInit {
     }
   }
 
+  updateUserData() {
+    this.restApi
+      .get_request('Players/' + this.sesionService.getUser().username, null)
+      .subscribe((userData) => {
+        this.sesionService.setUser(JSON.stringify(userData));
+        this.router.navigateByUrl('pages/myPortal');
+      });
+  }
+
   submitPay(data: any) {
     this.restApi.post_request('PlayerTeams', data).subscribe((result) => {
       console.log(result);
@@ -187,8 +196,8 @@ export class StoreComponent implements OnInit {
         'Equipo creado',
         'El equipo fue creado con éxito'
       );
-      this.sesionService.getUserFromDb(this.sesionService.getUser().username);
-      this.router.navigateByUrl('pages/myPortal');
+
+      this.updateUserData();
     });
   }
 }

@@ -18,10 +18,12 @@ export class RegisterComponent implements OnInit {
     private checker: CheckerService
   ) {}
   rangosEdad: string[] = ['18-25', '25-35', '35-50', '50+'];
-  countries: any = [];
+  countries: any = ['Costa Rica', 'Panamá'];
 
   ngOnInit(): void {
-    this.countries = this.countryService.getCountries();
+    const restCountries = this.countryService.getCountries();
+    if (restCountries && restCountries !== [] && restCountries.length > 0)
+      this.countries = restCountries;
     console.log(this.countries);
   }
 
@@ -107,13 +109,22 @@ export class RegisterComponent implements OnInit {
   }
 
   submitRegister(data: any) {
-    this.swal.showSuccess(
-      'Registro exitoso',
-      'Se ha enviado el link de verificacion  a tu correo electronico'
-    );
     data.password = Md5.hashStr(data.password);
 
     console.log(data);
-    this.backend.post_request('Players', data).subscribe((result) => {});
+    this.backend.post_request('Players', data).subscribe(
+      (result) => {
+        this.swal.showSuccess(
+          'Registro exitoso',
+          'Se ha enviado el link de verificacion  a tu correo electronico'
+        );
+      },
+      (error) => {
+        this.swal.showError(
+          'Registro Fallido',
+          'El correo electronico o nombre de usuario ya pertenece a un usuario'
+        );
+      }
+    );
   }
 }

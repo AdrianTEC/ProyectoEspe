@@ -281,3 +281,68 @@ input:-webkit-autofill:focus {
 .flag{
     max-width: 34px;
 }
+
+
+.topContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
+    max-width: 500px;
+    max-height: 240px;
+}
+.topTitle{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: clamp(14px, 1.2vw, 2vw);
+    color: var(--Letters);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+
+}
+.topScroll{
+    width: 100%;
+    overflow: scroll;
+    padding: 0 33px 0px 3px;
+    box-sizing: border-box;
+
+}
+
+
+.scrollItem{
+    display: flex;
+    width: 100%;
+    margin: 3px 0px;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.scrollItem:hover{
+    transition: 0.3s;
+   transform: translate(10px,0px)
+}
+
+.scrollPositionText{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: clamp(11px, 1vw, 2vw);
+    color: var(--Letters);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+    user-select: none;
+
+}
+.scrollPositionTextDisable{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: clamp(11px, 1vw, 2vw);
+    color: rgb(122, 122, 122);
+    line-height: normal;
+    font-weight: bolder;
+    display: flex;
+    user-select: none;
+    
+}
