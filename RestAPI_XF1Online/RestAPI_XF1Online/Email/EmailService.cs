@@ -30,7 +30,7 @@ namespace RestAPI_XF1Online.Email
             smtp.Host = "smtp.gmail.com";
             smtp.ConnectionProtocols = ConnectionProtocols.Ssl;
             smtp.Username = addressFrom.Address;
-            smtp.Password = "ProyectoEspe123";
+            smtp.Password = "cojldtpapyncdwcr";
             smtp.Port = 587;
 
             smtp.SendOne(message);
