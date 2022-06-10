@@ -21,6 +21,7 @@
         <div class="simpleText" style="font-size: clamp(20px, 2.2vw,3vw);" *ngIf="league!==null">{{league.name}}</div>
         <div class="medMargin" *ngIf="league!==null"></div>
         <div class="simpleText" *ngIf="league!==null">Cantidad de Participantes: {{league.amountOfParticipants}}</div>
+        <div class="simpleText" *ngIf="league!==null">Código de acceso: {{league.invitationCode}}</div>
 
         <div class="separator" *ngIf="league!==null"></div>
         <div class="smallMargin"></div>

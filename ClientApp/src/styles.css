@@ -47,6 +47,7 @@ body{
     line-height: normal;
     font-weight: bolder;
     display: flex;
+    white-space: normal;
 }
 
 

@@ -87,7 +87,31 @@ export class LeagueComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Crear',
     }).then((result) => {
-      if (!result.isConfirmed) return;
+      if (!result.isConfirmed || result.value < 4 || result.value === '') {
+        this.swal.showError(
+          'Código no válido',
+          'Solicite un código de acceso válido'
+        );
+        return;
+      }
+      const data = {
+        invitationCode: result.value,
+        playerUsername: this.sesion.getUser().username,
+      };
+      this.restApi.post_request('PrivateLeague/joinRequest', data).subscribe(
+        (result) => {
+          this.swal.showSuccess(
+            'Solicitud envidad',
+            'Un administrador de esta liga verificará tu solicitud'
+          );
+        },
+        (error) => {
+          this.swal.showError(
+            'Código no válido',
+            'El código ingresado no pertenece a ninguna liga privada'
+          );
+        }
+      );
     });
   }
   teamIsOfUser(teamName: string): boolean {

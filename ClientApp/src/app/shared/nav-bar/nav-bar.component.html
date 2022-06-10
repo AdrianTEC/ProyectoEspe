@@ -4,13 +4,13 @@
         font-size:clamp(20px, 1.2vw, 2.5vw) !important;">
             XFIA</div>
         <div class="navBarButton" [routerLink]="['/pages/myPortal']"> Mis Equipos</div>
-        <div class="navBarButton" [routerLink]="['/pages/league']">Liga Privada</div>
+        <div class="navBarButton" [routerLink]="['/pages/league']" *ngIf="myteams.length>0">Liga Privada</div>
     </div>
 
     <div class="navBarContainer">
         <div class="navBarText moneyBackground" style="color: #E5FFAD!important;">Fondos: {{user.money}}$</div>
         <div mat-button [matMenuTriggerFor]="notificationMenu" class="navBarButton"
-            style="display: flex; align-items: center;">
+            style="display: flex; align-items: center;" (click)="getNotifications()">
             <mat-icon style="color: white ;">
                 notifications
             </mat-icon>
@@ -39,7 +39,15 @@
 
 
 
-        <div mat-menu-item *ngFor="let notification of notifications">
+        <div mat-menu-item *ngIf="notifications.length==0"
+            style="display: flex; flex-direction:column; justify-content:center;height: fit-content;">
+
+            <div class="simpleText" style="color: black;">No tienes notificaciones</div>
+
+
+        </div>
+
+        <div mat-menu-item *ngFor="let notification of notifications" style="height: fit-content;">
 
             <div class="simpleText" style="color: black;">{{notification.description}}</div>
             <div *ngIf="notification.type===1" style="display: flex; align-items:center">
@@ -56,6 +64,19 @@
                 </div>
 
             </div>
+
+
+            <div *ngIf="notification.type===2" style="display: flex; align-items:center">
+
+                <div class="optionButton" style="background-color: rgb(219, 102, 102); "
+                    (click)="reject (notification)">
+                    <div class="simpleText">
+                        Cancelar
+                    </div>
+                </div>
+
+            </div>
+
             <div class="separatorH"></div>
 
         </div>
