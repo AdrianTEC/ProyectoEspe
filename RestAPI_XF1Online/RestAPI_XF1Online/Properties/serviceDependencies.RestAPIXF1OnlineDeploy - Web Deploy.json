@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/API-XF1Online-Resource/apis/api-xf1online",
+      "type": "apis.azure"
+    }
+  }
+}

@@ -22,15 +22,14 @@ export class MyPortalComponent implements OnInit {
   ngOnInit(): void {
     this.getDrivers();
     this.getTop();
-    //this.fillWithDummy();
-    this.sortTop();
+
 
     localStorage.removeItem('currentAction');
     this.sesionService.getUserFromDb(this.sesionService.getUser().username);
   }
 
   /**
-   * 
+   *
   [
   {
     "id": 0,
@@ -50,7 +49,7 @@ export class MyPortalComponent implements OnInit {
     ]
   }
 ]
-   * 
+   *
    */
   getDrivers(): void {
     this.pilots.push;
@@ -73,6 +72,7 @@ export class MyPortalComponent implements OnInit {
       .subscribe((result: any[]) => {
         console.log(result);
         this.top = result;
+        this.sortTop();
       });
   }
 
