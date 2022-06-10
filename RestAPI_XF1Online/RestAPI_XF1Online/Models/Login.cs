@@ -9,5 +9,6 @@ namespace RestAPI_XF1Online.Models
         [Required]
         public string Password { get; set; }
         public bool IsPlayer { get; set; }
+        public bool IsConfirmed { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace RestAPI_XF1Online.Controllers
             return Ok(_mapper.Map<PlayerReadDto>(player));
         }
 
-        // GET: players/{username}
+        // GET: players/auth/{username}
         [HttpGet("auth/{username}")]
         public ActionResult AccountConfirmation(string username)
         {

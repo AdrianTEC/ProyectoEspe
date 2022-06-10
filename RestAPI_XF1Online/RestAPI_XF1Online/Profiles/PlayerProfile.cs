@@ -14,6 +14,7 @@ namespace RestAPI_XF1Online.Profiles
             CreateMap<string, Player>()
                 .ForMember(x => x.Username,
                     opt => opt.MapFrom(src => src));
+            CreateMap<Player, string>().ConvertUsing(src => src.Username);
         }
     }
 }

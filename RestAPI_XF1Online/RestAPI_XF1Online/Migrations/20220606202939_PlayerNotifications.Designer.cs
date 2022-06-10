@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220606202939_PlayerNotifications")]
+    partial class PlayerNotifications
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,10 +162,8 @@ namespace RestAPI_XF1Online.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PrivateLeagueName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -369,7 +369,9 @@ namespace RestAPI_XF1Online.Migrations
 
                     b.HasOne("RestAPI_XF1Online.Models.PrivateLeague", "PrivateLeague")
                         .WithMany()
-                        .HasForeignKey("PrivateLeagueName");
+                        .HasForeignKey("PrivateLeagueName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("InvitedPlayer");
 

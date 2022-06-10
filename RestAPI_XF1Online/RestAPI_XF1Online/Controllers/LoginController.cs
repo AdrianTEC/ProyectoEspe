@@ -25,12 +25,10 @@ namespace RestAPI_XF1Online.Controllers
 
         // POST: login/
         [HttpPost]
-        public ActionResult<LoginReadDto> CreatePlayer(LoginCreateDto loginCreateDto)
+        public ActionResult<LoginReadDto> ValidatePLayerCredentials(LoginCreateDto loginCreateDto)
         {
             var loginModel = _mapper.Map<Login>(loginCreateDto);
             loginModel = _repository.ValidatePlayerCredentials(loginModel);
-
-            Debug.WriteLine("LA VALIDACION ES: " + loginModel.IsPlayer);
 
             var loginReadDto = _mapper.Map<LoginReadDto>(loginModel);
 

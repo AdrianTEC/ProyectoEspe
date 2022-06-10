@@ -151,6 +151,7 @@ namespace RestAPI_XF1Online.Data
             playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
             playerTeam.Scuderia = GetScuderiaById(playerTeam.Scuderia.Id);
             playerTeam.Player.Money -= playerTeam.Scuderia.Price;
+            playerTeam.PrivateLeague = playerTeam.Player.PrivateLeague;
             var drivers = playerTeam.Drivers;
             playerTeam.Drivers = new List<Driver>();
             foreach(Driver driver in drivers)
@@ -166,6 +167,7 @@ namespace RestAPI_XF1Online.Data
             ranking.Championship = GetActiveChampionship();
             ranking.PlayerTeam = playerTeam;
             ranking.Score = 0;
+            ranking.PrivateLeague = playerTeam.Player.PrivateLeague;
             _context.Rankings.Add(ranking);
 
         }
@@ -180,7 +182,7 @@ namespace RestAPI_XF1Online.Data
 
         public Player GetPlayerByUsername(string username)
         {
-            return _context.Players.FirstOrDefault(p => p.Username == username);
+            return _context.Players.Where(p => p.Username == username).Include("PrivateLeague").FirstOrDefault();
         }
 
         public void CreatePlayer(Player player)
@@ -229,9 +231,126 @@ namespace RestAPI_XF1Online.Data
             return ranking;
         }
 
+        public PlayerNotification CreatePrivateLeagueJoinRequest(PrivateLeague privateLeague, string playerUsername)
+        {
+            var validateNotification = _context.PlayerNotifications.Where(n => n.NotifiedPlayer.Username == playerUsername && n.Type == 2);
+            if (validateNotification.Any())
+                throw new InvalidDataException("Can't send two join request");
+            
+            var player = GetPlayerByUsername(playerUsername);
+            if (player.PrivateLeague != null)
+                throw new InvalidDataException("Can't join another private league");
+
+
+            var notification = new PlayerNotification();
+            notification.Type = 2;
+            notification.NotifiedPlayer = player;
+            notification.Description = "La solicitud de ingreso a la liga '" + privateLeague.Name +"' ha sido enviada";
+            notification.PrivateLeague = privateLeague;
+            _context.PlayerNotifications.Add(notification);
+
+            CreatePlayerOwnerNotification(privateLeague, playerUsername);
+
+            return notification;
+        }
+
+        private void CreatePlayerOwnerNotification(PrivateLeague privateLeague, string invitedPlayer)
+        {
+            var invitedPlayerModel = GetPlayerByUsername(invitedPlayer);
+
+            var notification = new PlayerNotification();
+            notification.Type = 1;
+            notification.NotifiedPlayer = GetPlayerByUsername(privateLeague.LeagueCreatorUsername);
+            notification.Description = "El jugador " + invitedPlayerModel.Name + " " + invitedPlayerModel.LastName  + 
+                                        " (" + invitedPlayerModel.Username + ") quiere unirse a tu liga privada '" +
+                                        privateLeague.Name + "'";
+            notification.PrivateLeague = privateLeague;
+            notification.InvitedPlayer = invitedPlayerModel;
+            _context.PlayerNotifications.Add(notification);
+        }
+
+        public IEnumerable<PlayerNotification> GetNotificationsByUsername(string playerUsername)
+        {
+            return _context.PlayerNotifications.Where(n => n.NotifiedPlayer.Username == playerUsername).Include("NotifiedPlayer").ToList();
+        }
+
+        private PlayerNotification GetNotificationById(int notificationId)
+        {
+            return _context.PlayerNotifications.Where(n => n.Id == notificationId)
+                .Include("InvitedPlayer")
+                .Include("PrivateLeague")
+                .Include("NotifiedPlayer")
+                .FirstOrDefault();
+        }
+
+        public void AcceptPlayerInvite(int notificationId)
+        {
+            var notification = GetNotificationById(notificationId);
+            AddPlayerToPrivateLeague(notification.PrivateLeague.Name, notification.InvitedPlayer.Username);
+            _context.PlayerNotifications.Remove(notification);
+            CreateInfoNotification(notification.InvitedPlayer.Username, notification.PrivateLeague.Name, true);
+
+            var requestNotification = _context.PlayerNotifications
+                                       .Where(n => n.Type == 2 && n.NotifiedPlayer == notification.InvitedPlayer).FirstOrDefault();
+            DeleteNotification(requestNotification.Id);
+        }
+
+        private void CreateInfoNotification(string playerUsername, string leagueName, bool isAccepted)
+        {
+            var player = GetPlayerByUsername(playerUsername);
+            var notification = new PlayerNotification();
+            notification.Type = 3;
+            notification.NotifiedPlayer = player;
+            var action = (isAccepted) ? "aceptada" : "rechazada";
+            notification.Description = "Tu solicitud de ingreso a la liga '" + leagueName + "' ha sido " + action;
+            _context.PlayerNotifications.Add(notification);
+        }
+
+        private void DeleteNotification(int notificationId)
+        {
+            var notification = GetNotificationById(notificationId);
+            _context.PlayerNotifications.Remove(notification);
+        }
+
+        public void DeclineNotification(int notificationId)
+        {
+            var notification = GetNotificationById(notificationId);
+            switch (notification.Type)
+            {
+                case 1:
+                    RejectRequestToLeague(notification);
+                    break;
+                case 2:
+                    DeleteRequestNotification(notification);
+                    break;
+                case 3:
+                    DeleteNotification(notificationId);
+                    break;
+            }
+        }
+
+        private void RejectRequestToLeague(PlayerNotification notification)
+        {
+            var joinRequestNotification = _context.PlayerNotifications.Where(n => n.NotifiedPlayer.Username == notification.InvitedPlayer.Username 
+                                                                 && n.Type == 2).FirstOrDefault();
+            DeleteNotification(joinRequestNotification.Id);
+
+            CreateInfoNotification(notification.InvitedPlayer.Username, notification.PrivateLeague.Name, false);
+            DeleteNotification(notification.Id);
+        }
+
+        private void DeleteRequestNotification(PlayerNotification notification)
+        {
+            var ownerNotification = _context.PlayerNotifications.Where(n => n.Type == 1 && n.InvitedPlayer == notification.NotifiedPlayer)
+                .FirstOrDefault();
+            DeleteNotification(ownerNotification.Id);
+            DeleteNotification(notification.Id);
+        }
+
         public PrivateLeague GetPrivateLeagueByName(string name)
         {
-            var privateLeague = _context.PrivateLeagues.Where(pl => pl.Name == name).Include("Rankings").FirstOrDefault();
+            var privateLeague = _context.PrivateLeagues.Where(pl => pl.Name == name)
+                .Include("Rankings").Include("Rankings.PlayerTeam").Include("Rankings.PlayerTeam.Player").FirstOrDefault();
             return privateLeague;
         }
 
@@ -251,15 +370,15 @@ namespace RestAPI_XF1Online.Data
             UpdatePrivateLeagueColumn(privateLeague, privateLeague.LeagueCreatorUsername);
         }
 
-        public PrivateLeague AddPlayerToPrivateLeague(PrivateLeague privateLeague, string playerUsername)
+        private void AddPlayerToPrivateLeague(string privateLeagueName, string playerUsername)
         {
+            var privateLeague = GetPrivateLeagueByName(privateLeagueName);
             var playerRankings = _context.Rankings.Where(r => r.PlayerTeam.Player.Username == playerUsername).ToList();
             privateLeague.Rankings.AddRange(playerRankings);
             privateLeague.AmountOfParticipants += 1;
             _context.PrivateLeagues.Update(privateLeague);
 
             UpdatePrivateLeagueColumn(privateLeague, playerUsername);
-            return privateLeague;
         }
 
         private void UpdatePrivateLeagueColumn(PrivateLeague privateLeague, string playerUsername)
@@ -279,9 +398,11 @@ namespace RestAPI_XF1Online.Data
         public Login ValidatePlayerCredentials(Login login)
         {
             var player = _context.Players.FirstOrDefault(p => p.Username == login.Username && 
-                                                         p.Password == login.Password && p.ConfirmedAccount == true);
+                                                         p.Password == login.Password);
 
             login.IsPlayer = (player == null) ? false : true;
+            if (login.IsPlayer)
+                login.IsConfirmed = player.ConfirmedAccount;
             return login;
         }
     }

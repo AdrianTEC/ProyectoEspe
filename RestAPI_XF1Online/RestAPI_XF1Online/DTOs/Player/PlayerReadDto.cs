@@ -11,7 +11,7 @@
         public string AgeRange { get; set; }
         public int Money { get; set; }
         public bool ConfirmedAccount { get; set; }
-        public string PrivateLeague { get; set; }
+        public string? PrivateLeague { get; set; }
 
     }
 }

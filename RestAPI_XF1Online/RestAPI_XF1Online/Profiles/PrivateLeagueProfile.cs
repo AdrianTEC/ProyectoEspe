@@ -18,6 +18,8 @@ namespace RestAPI_XF1Online.Profiles
                     opt => opt.MapFrom(src => -1))
                 .ForMember(x => x.AmountOfParticipants,
                     opt => opt.MapFrom(src => -1));
+
+            CreateMap<PrivateLeague, string>().ConvertUsing(src => src == null ? "" : src.Name);
         }
     }
 }
