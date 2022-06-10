@@ -10,12 +10,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LeagueComponent } from './league/league.component';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     PagesComponent,
     StoreComponent,
     MyPortalComponent,
     NavBarComponent,
+    LeagueComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

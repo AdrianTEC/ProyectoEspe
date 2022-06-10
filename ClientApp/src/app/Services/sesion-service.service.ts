@@ -30,4 +30,12 @@ export class SesionService {
         this.router.navigateByUrl('/pages');
       });
   }
+
+  refreshUser() {
+    this.backend
+      .get_request('Players/' + this.getUser().username, null)
+      .subscribe((userData) => {
+        this.setUser(JSON.stringify(userData));
+      });
+  }
 }
