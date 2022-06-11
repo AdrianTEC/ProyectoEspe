@@ -34,6 +34,7 @@ export class StoreComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar
   ) {}
+
   ngOnInit(): void {
     this.currentAction = localStorage.getItem('currentAction');
     this.getDrivers();
@@ -44,6 +45,7 @@ export class StoreComponent implements OnInit {
         this.moneyCounter.innerHTML = this.sesionService.getUser().money;
     });
   }
+  
   addPilotToCar(thing: any) {
     if (this.currentAction === 'replacing') {
       this.total = thing.price;
@@ -115,6 +117,7 @@ export class StoreComponent implements OnInit {
   openCars(): void {
     this.seeingDrivers = false;
   }
+
   getDrivers(): void {
     this.pilots.push;
     this.restApi.get_request('Drivers', null).subscribe((result: any[]) => {
@@ -172,6 +175,7 @@ export class StoreComponent implements OnInit {
 
     return hasEnoughMoney && haveFiveDrivers && haveAScudery;
   }
+
   pay(): void {
     const teamName = (document.getElementById('teamName') as HTMLInputElement)
       .value;
