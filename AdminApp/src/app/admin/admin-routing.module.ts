@@ -4,6 +4,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminComponent } from './admin.component';
 import { CareersControlComponent } from './careers-control/careers-control.component';
 import { ChampionshipControlComponent } from './championship-control/championship-control.component';
+import { ResultsComponent } from './results/results.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'championship',
         component: ChampionshipControlComponent,
+      },
+      {
+        path: 'results',
+        component: ResultsComponent,
       },
 
       { path: '', redirectTo: 'home', pathMatch: 'full' },
