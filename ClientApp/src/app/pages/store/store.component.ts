@@ -17,9 +17,9 @@ export class StoreComponent implements OnInit {
   scuderias: Scuderia[] = [];
   currentAction: any = '';
   total: number = 0;
-  team1: any = {
+  shoppingCarTeam: any = {
     drivers: [],
-    scudery: {},
+    scudery: null,
   };
 
   money: number = 0;
@@ -34,63 +34,38 @@ export class StoreComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar
   ) {}
-
   ngOnInit(): void {
     this.currentAction = localStorage.getItem('currentAction');
+
+    if (this.currentAction === 'replacing') {
+      this.shoppingCarTeam = this.getTeamFromLocalStorage();
+      console.log(this.shoppingCarTeam);
+    }
+
     this.getDrivers();
     this.getScuderias();
 
-    this.router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd)
-        this.moneyCounter.innerHTML = this.sesionService.getUser().money;
-    });
+    this.suscribeToMoneyCounter();
   }
-  
-  addPilotToCar(thing: any) {
-    if (this.currentAction === 'replacing') {
-      this.total = thing.price;
-      const hasEnoughMoney = this.sesionService.getUser().money >= this.total;
-      const componentBeingReplaced = JSON.parse(
-        localStorage.getItem('selectedDriver') as any
-      );
 
-      if (hasEnoughMoney)
-        this.swalService
-          .htmloptionSwal(
-            'Compra de un nuevo piloto',
-            'Desear reemplazar : ' +
-              componentBeingReplaced.name +
-              '<br> por: ' +
-              thing.name,
-            'No',
-            'Sí',
-            '',
-            null
-          )
-          .then((value) => {
-            console.log(value);
-            if (value.isConfirmed) {
-            }
-          });
-      else {
-        this.swalService.showError(
-          'Fondos insuficientes',
-          'Actualmente no cuenta con los fondos para realizar esta compra'
-        );
-      }
-      return;
-    }
+  getTeamFromLocalStorage(): any {
+    const team = JSON.parse(localStorage.getItem('team') as any);
+    console.log(team);
+    if (team) return team;
+  }
 
-    if (this.team1.drivers.length < 5 && !this.team1.drivers.includes(thing)) {
-      this.team1.drivers.push(thing);
-      this.total += thing.price;
-      this.moneyCounter = document.getElementById('money');
-      this.moneyCounter.innerHTML =
-        parseInt(this.moneyCounter.innerHTML) - thing.price;
+  addPilotToCar(thing: any): any {
+    if (
+      this.shoppingCarTeam.drivers.length < 5 &&
+      !this.shoppingCarTeam.drivers.includes(thing)
+    ) {
+      this.shoppingCarTeam.drivers.push(thing);
+      this.calcTotal(thing.price);
 
       this._snackBar.open('Piloto Agregado', '', {
         duration: 1000,
       });
+      return this.shoppingCarTeam;
     } else
       this.swalService.showError(
         'Acción inválida',
@@ -99,14 +74,32 @@ export class StoreComponent implements OnInit {
   }
 
   addCarToCar(thing: any) {
-    if (Object.values(this.team1.scudery).length > 0)
-      this.total -= this.team1.scudery.price;
-    this.team1.scudery = thing;
-    this.total += thing.price;
+    if (
+      this.shoppingCarTeam.scudery != null &&
+      Object.values(this.shoppingCarTeam.scudery).length > 0
+    )
+      this.calcTotal(-this.shoppingCarTeam.scudery.price);
+    this.shoppingCarTeam.scudery = thing;
+    this.calcTotal(thing.price);
     this._snackBar.open('Escudería cambiada', '', {
       duration: 3000,
     });
   }
+
+  sellIScudery(): void {
+    this.calcTotal(-this.shoppingCarTeam.scudery.price);
+    this.shoppingCarTeam.scudery = null;
+  }
+  sellIDriver(driver: any): void {
+    const drivers: any[] = this.shoppingCarTeam.drivers;
+    for (let i = 0; i < drivers.length; i++) {
+      if (drivers[i] === driver) {
+        drivers.splice(i, 1);
+        this.calcTotal(-driver.price);
+      }
+    }
+  }
+
   objIsEmpty(value: any) {
     return Object.keys(value).length === 0;
   }
@@ -146,14 +139,11 @@ export class StoreComponent implements OnInit {
     }
     const teamName = team;
     const hasEnoughMoney = this.sesionService.getUser().money >= this.total;
-    const haveFiveDrivers = this.team1.drivers.length == 5;
-    const haveAScudery = Object.values(this.team1.scudery).length > 1;
+    const haveFiveDrivers = this.shoppingCarTeam.drivers.length == 5;
+    const haveAScudery = Object.values(this.shoppingCarTeam.scudery).length > 1;
     const nameNotEmpty = this.checker.verifyName(teamName, 0, 60, true);
     if (!hasEnoughMoney) {
-      this.swalService.showError(
-        'Fondos insuficientes',
-        'Actualmente no cuenta con los fondos para realizar esta compra'
-      );
+      this.showInsuficientFoundsError();
       return false;
     }
     if (!haveFiveDrivers || !haveAScudery) {
@@ -165,10 +155,7 @@ export class StoreComponent implements OnInit {
     }
 
     if (!nameNotEmpty) {
-      this.swalService.showError(
-        'Nombre inválido',
-        'Solo puede ingresar un conjunto de valores alfanuméricos no vacío'
-      );
+      this.showPilotMaxError();
 
       return false;
     }
@@ -179,7 +166,7 @@ export class StoreComponent implements OnInit {
   pay(): void {
     const teamName = (document.getElementById('teamName') as HTMLInputElement)
       .value;
-    const drivers = this.team1.drivers.map((driver: any) => {
+    const drivers = this.shoppingCarTeam.drivers.map((driver: any) => {
       return driver.id;
     });
 
@@ -187,7 +174,7 @@ export class StoreComponent implements OnInit {
       const survey = {
         name: teamName,
         player: this.sesionService.getUser().username,
-        scuderia: this.team1.scudery.id,
+        scuderia: this.shoppingCarTeam.scudery.id,
         drivers: drivers,
       };
 
@@ -205,6 +192,19 @@ export class StoreComponent implements OnInit {
   }
 
   submitPay(data: any) {
+    if (this.currentAction === 'replacing') {
+      this.restApi.post_request('XXXXX', data).subscribe((result) => {
+        console.log(result);
+        this.swalService.showSuccess(
+          'Equipo Modificado',
+          'El equipo fue creado con éxito'
+        );
+
+        this.updateUserData();
+      });
+
+      return;
+    }
     this.restApi.post_request('PlayerTeams', data).subscribe((result) => {
       console.log(result);
       this.swalService.showSuccess(
@@ -214,5 +214,36 @@ export class StoreComponent implements OnInit {
 
       this.updateUserData();
     });
+  }
+
+  /**Para asegurar que los valores de fondos se actualicen
+    y que no afecten el valor de ninguna variable se modifica el contenido del html
+    **/
+  suscribeToMoneyCounter(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd)
+        this.moneyCounter.innerHTML = this.sesionService.getUser().money;
+    });
+  }
+
+  showPilotMaxError(): void {
+    this.swalService.showError(
+      'Nombre inválido',
+      'Solo puede ingresar un conjunto de valores alfanuméricos no vacío'
+    );
+  }
+
+  showInsuficientFoundsError(): void {
+    this.swalService.showError(
+      'Fondos insuficientes',
+      'Actualmente no cuenta con los fondos para realizar esta compra'
+    );
+  }
+
+  calcTotal(value: number): number {
+    this.total += value;
+    this.moneyCounter = document.getElementById('money');
+    this.moneyCounter.innerHTML = parseInt(this.moneyCounter.innerHTML) - value;
+    return this.total;
   }
 }

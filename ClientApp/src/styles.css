@@ -347,3 +347,20 @@ input:-webkit-autofill:focus {
     user-select: none;
     
 }
+.replaceHover{
+    opacity: 0;
+    background-color: #494949b5;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    transition:0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+.replaceHover:hover{
+    transition:0.3s;
+    opacity: 1;
+}
