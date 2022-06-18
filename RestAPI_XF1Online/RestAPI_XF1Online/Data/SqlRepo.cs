@@ -143,7 +143,8 @@ namespace RestAPI_XF1Online.Data
 
         public PlayerTeam GetPlayerTeamById(int id)
         {
-            return _context.PlayerTeams.FirstOrDefault(pt => pt.Id == id);
+            return _context.PlayerTeams.Where(pt => pt.Id == id).Include("Player").Include("Scuderia")
+                .Include("Drivers").Include("PrivateLeague").FirstOrDefault();
         }
 
         public void CreatePlayerTeam(PlayerTeam playerTeam)
@@ -170,6 +171,33 @@ namespace RestAPI_XF1Online.Data
             ranking.PrivateLeague = playerTeam.Player.PrivateLeague;
             _context.Rankings.Add(ranking);
 
+        }
+
+        public void ModifyPlayerTeam(PlayerTeam newPlayerTeam)
+        {
+            var playerTeam = GetPlayerTeamById(newPlayerTeam.Id);
+            
+            foreach (Driver driver in playerTeam.Drivers)
+            {
+                playerTeam.Player.Money += driver.Price;
+            }
+            playerTeam.Player.Money += playerTeam.Scuderia.Price;
+
+            var newDrivers = new List<Driver>();
+            foreach (Driver driver in newPlayerTeam.Drivers)
+            {
+                var driverModel = GetDriverById(driver.Id);
+                playerTeam.Player.Money -= driverModel.Price;
+                newDrivers.Add(driverModel);
+            }
+            playerTeam.Drivers = newDrivers;
+
+            var scuderiaModel = GetScuderiaById(newPlayerTeam.Scuderia.Id);
+            playerTeam.Player.Money -= scuderiaModel.Price;
+            playerTeam.Scuderia = scuderiaModel;
+
+            _context.PlayerTeams.Update(playerTeam);
+            _context.SaveChanges();
         }
 
         public void DeletePlayerTeamsByUsername(string username)

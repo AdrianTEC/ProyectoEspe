@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'https://restapixf1onlinedeploy.azurewebsites.net/',
+  serverUrl: 'https://localhost:7133/',
 };
 
 /*

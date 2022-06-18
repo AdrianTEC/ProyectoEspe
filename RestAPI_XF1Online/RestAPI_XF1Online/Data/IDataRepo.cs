@@ -21,6 +21,7 @@ namespace RestAPI_XF1Online.Data
         IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username);
         PlayerTeam GetPlayerTeamById(int id);
         void CreatePlayerTeam(PlayerTeam playerTeam);
+        void ModifyPlayerTeam(PlayerTeam playerTeam);
         void DeletePlayerTeamsByUsername(string username);
 
         Player GetPlayerByUsername(string username);

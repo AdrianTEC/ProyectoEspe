@@ -23,7 +23,6 @@ export class MyPortalComponent implements OnInit {
     this.getDrivers();
     this.getTop();
 
-
     localStorage.removeItem('currentAction');
     this.sesionService.getUserFromDb(this.sesionService.getUser().username);
   }
@@ -76,9 +75,15 @@ export class MyPortalComponent implements OnInit {
       });
   }
 
-  replaceComponent(component: any): void {
+  editTeam(team: any): void {
     localStorage.setItem('currentAction', 'replacing');
-    localStorage.setItem('selectedDriver', JSON.stringify(component));
+
+    const teamData = {
+      drivers: team.drivers,
+      scudery: team.scuderia,
+    };
+
+    localStorage.setItem('team', JSON.stringify(teamData));
     this.router.navigateByUrl('/pages/store');
   }
   createNewTeam(): void {

@@ -1,34 +1,55 @@
 <div class="mainContainer mainViewOverride" style="overflow: scroll;    ;">
 
 
-    <div class="teamShortContainer">
-        <div class="teamShortContainer" *ngIf="currentAction==='creatingTeam'">
-            <div class="teamGroup">
 
-                <div *ngFor="let number of [1,2,3,4,5]">
-                    <mat-icon *ngIf="number <= team1.drivers.length" class="pilotSphereActive">account_circle</mat-icon>
+    <div class="teamCardContainerOverride">
 
-                    <mat-icon *ngIf="number > team1.drivers.length" class="pilotSphereInactive">account_circle
-                    </mat-icon>
-                </div>
-                <div class="carShortIconActive" *ngIf="!objIsEmpty(team1.scudery)">
-                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
-                </div>
-                <div class="carShortIconInactive" *ngIf="objIsEmpty(team1.scudery)">
-                    <img class="carIconActive" src="assets/Icons/IconCar.svg" alt="">
-                </div>
-
+        <div class="pilotCard smallCardOverride" *ngFor="let driver of shoppingCarTeam.drivers">
+            <div class="pilotImageContainer">
+                <img src="assets/images/p (2).png" class="pilotImage">
             </div>
 
-
-            <div class="textAndInput">
-                <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre del Equipo</div>
-                <input class="inputBackground" style="width: 80%;" id="teamName" #team>
+            <div class="simpleText">{{driver.name}}</div>
+            <div class="separator"></div>
+            <div class="priceAndFlag">
+                <div class="simpleText">{{driver.price}}$</div>
+                <img class="flag" src={{driver.country}}>
             </div>
 
+            <div class="replaceHover" (click)="sellIDriver(driver)">
+                <div class="simpleText" style="color: white; font-size:clamp(14px,1vw,2vw)"> Vender
+                </div>
+            </div>
 
         </div>
+
+        <div class="carCard smallCarCardOverride" *ngIf="shoppingCarTeam.scudery">
+
+            <div class="carImageContainer">
+                <img src="assets/images/c (2).png" class="carImage">
+            </div>
+            <div class="simpleText">{{shoppingCarTeam.scudery.name}}</div>
+            <div class="separator"></div>
+            <div class="priceAndFlag">
+                <div class="simpleText">{{shoppingCarTeam.scudery.price}}$</div>
+                <img class="flag" src="https://countryflagsapi.com/png/Italy">
+
+            </div>
+            <div class="replaceHover" (click)="sellIScudery()">
+                <div class="simpleText" style="color: white; font-size:clamp(14px,1vw,2vw)"> Vender
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
+    <div class="textAndInput">
+        <div class="simpleSmallText" style="width: 100%; justify-content:center">Nombre del Equipo</div>
+        <input class="inputBackground" style="width: 30%;" id="teamName" #team>
+    </div>
+
     <div class="separator"></div>
     <div class="smallMargin"></div>
     <div class="storeButtonContainer">

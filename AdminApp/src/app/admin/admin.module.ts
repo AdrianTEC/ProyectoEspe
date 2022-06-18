@@ -17,6 +17,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { AddCareerModalComponent } from './careers-control/add-career-modal/add-career-modal.component';
 import { MatSelectModule } from '@angular/material/select';
 import { TopLeagueModalComponent } from './championship-control/top-league-modal/top-league-modal.component';
+import { ResultsComponent } from './results/results.component';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     ChampionshipControlComponent,
@@ -27,11 +29,13 @@ import { TopLeagueModalComponent } from './championship-control/top-league-modal
     AddChampionshipModalComponent,
     AddCareerModalComponent,
     TopLeagueModalComponent,
+    ResultsComponent,
   ],
   imports: [
     CommonModule,
     MatFormFieldModule,
     MatDatepickerModule,
+    MatTableModule,
     MatSelectModule,
     MatNativeDateModule,
     AdminRoutingModule,

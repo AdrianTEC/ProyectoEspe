@@ -1,0 +1,73 @@
+<div class="verticalContainer">
+    <app-admin-nav-bar></app-admin-nav-bar>
+
+    <div class="adminMainContainer">
+
+        <div class="adminTitle">Carga de resultados</div>
+        <div class="decoratorSeparator"></div>
+        <div class="cardBackground">
+
+
+            <div class=" menuContainer">
+
+                <div class="text">Carga de resultados</div>
+
+                <div class="textAndInput" style="flex-direction: column; align-items:center">
+                    <div class="text">Seleccione la Carrera</div>
+                    <mat-select style="color: var(--SecondLetters) !important;" class="inputBackground"
+                        style="width:50%;" #careerId>
+                        <mat-option (click)="selectRace(race)" style="color: var(--SecondLetters) !important;"
+                            *ngFor="let race of races" [value]="race.id">
+                            {{race.name}} {{race.startingDate}}-{{race.finishingDate}}</mat-option>
+                    </mat-select>
+
+                </div>
+
+                <input type="file" style="display: none;" class="file-input" (change)="onFileSelected($event)"
+                    #fileUpload>
+
+                <div class="text" *ngIf="selectedRace">{{file.name || "Suba el archivo de resultados."}}</div>
+
+                <div class="actionButton" (click)="fileUpload.click()">
+                    Subir archivo
+                    <mat-icon>file_upload</mat-icon>
+                </div>
+                <div class="bigMargin"></div>
+
+                <!----------------------------------------------------------------->
+                <div class="tablevisualization">
+                    <div class="tableRow" style="color: black;" *ngFor="let data of dataSource">
+
+                        <div class="tableCell text" style="max-width: 50px; min-width:50px">{{data.CodigoXFIA}} </div>
+                        <div class="tableCell text" style="max-width: 50px; min-width:50px">{{data.Constructor}} </div>
+                        <div class="tableCell text">{{data.Nombre}} </div>
+                        <div class="tableCell text">{{data.Tipo}} </div>
+                        <div class="tableCell text">{{data.Precio}} </div>
+                        <div class="tableCell text">{{data.PosicionCalificacion}} </div>
+                        <div class="tableCell text">{{data.Q1}} </div>
+                        <div class="tableCell text">{{data.Q2}} </div>
+                        <div class="tableCell text">{{data.Q3}} </div>
+                        <div class="tableCell text">{{data.SinCalificarCalificacion}} </div>
+                        <div class="tableCell text">{{data.DescalificadoCalificacion}} </div>
+                        <div class="tableCell text">{{data.PosicionCarrera}} </div>
+                        <div class="tableCell text">{{data.VueltaMasRapida}} </div>
+                        <div class="tableCell text">{{data.GanoACompaneroEquipo}} </div>
+                        <div class="tableCell text">{{data.SinCalificarCarrera}} </div>
+                        <div class="tableCell text">{{data.DescalificadoCarrera}} </div>
+
+
+                    </div>
+
+                </div>
+
+                <!----------------------------------------------------------------->
+                <div class="actionButton" (click)="uploadFile()" *ngIf=" this.file">
+                    Aplicar Resultados
+                </div>
+
+            </div>
+            <div class="cardDecorator"></div>
+
+        </div>
+    </div>
+</div>

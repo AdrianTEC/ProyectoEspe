@@ -12,6 +12,29 @@
     width: 80%;
 }
 
+.teamCardContainerOverride {
+    display: flex;
+    flex-wrap: wrap;
+    width: 112%;
+    padding: 0px 10px;
+    margin: 2px 0;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.smallCardOverride{
+    margin-top: 70px !important;
+    margin-bottom: 10px;
+    transition: 1s;
+    border: 1px solid #aaaaaa;
+}
+.smallCarCardOverride{
+    margin-top: 70px !important;
+    margin-bottom: 10px !important;
+    transition:1s;
+    border: 1px solid #aaaaaa;
+}
 .cardOverride{
     margin-top: 70px !important;
     margin-bottom: 10px;
