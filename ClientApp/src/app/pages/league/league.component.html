@@ -1,0 +1,54 @@
+<div class="mainContainer" style="overflow: scroll;">
+    <div class="centerVerticalContainer">
+
+        <div class="separator" *ngIf="league!==null"></div>
+        <div class="optionMenu" *ngIf="league===null">
+            <div class="simpleText">
+                Actualmente no pertenece a Ninguna liga privada.
+            </div>
+            <div class="bigMargin"></div>
+            <div class="buttonContainer">
+                <div class="createButton" (click)="joinToLeague()">
+                    <div class="simpleText" style="color: white;">Unirse a una Liga Privada</div>
+                </div>
+                <div class="createButton" (click)="createNewLeague()">
+                    <div class="simpleText" style="color: white;">Crear una Liga Privada</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="smallMargin"></div>
+        <div class="simpleText" style="font-size: clamp(20px, 2.2vw,3vw);" *ngIf="league!==null">{{league.name}}</div>
+        <div class="medMargin" *ngIf="league!==null"></div>
+        <div class="simpleText" *ngIf="league!==null">Cantidad de Participantes: {{league.amountOfParticipants}}</div>
+        <div class="simpleText" *ngIf="league!==null">Código de acceso: {{league.invitationCode}}</div>
+
+        <div class="separator" *ngIf="league!==null"></div>
+        <div class="smallMargin"></div>
+        <div class="centerVerticalContainer" style="min-height: 300px;" *ngIf="league!==null">
+            <div class="topContainer">
+                <div class=" topTitle">Posición en el Top</div>
+                <div class="minMargin"></div>
+                <div class="topScroll">
+
+                    <div class="scrollItem" *ngFor="let item of league.rankings"
+                        (click)="openProfile(item.playerUsername)">
+                        <div class="scrollPositionText" *ngIf=" teamIsOfUser( item.teamName)">{{item.teamName}}</div>
+                        <div class="scrollPositionText" *ngIf=" teamIsOfUser( item.teamName)">{{item.score}}pts</div>
+                        <div class="scrollPositionTextDisable" *ngIf="! teamIsOfUser( item.teamName)">{{item.teamName}}
+                        </div>
+                        <div class="scrollPositionTextDisable" *ngIf="!teamIsOfUser( item.teamName)">{{item.score}}pts
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="medMargin"></div>
+        <div class="separator" *ngIf="league!==null"></div>
+
+
+    </div>
+
+</div>

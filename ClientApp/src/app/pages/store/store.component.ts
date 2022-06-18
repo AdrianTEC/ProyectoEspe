@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Driver, Scuderia } from 'src/app/models/models';
 import { CheckerService } from 'src/app/Services/checker.service';
 import { RestApiServiceService } from 'src/app/Services/rest-api-service.service';
@@ -22,6 +22,8 @@ export class StoreComponent implements OnInit {
     scudery: {},
   };
 
+  money: number = 0;
+  moneyCounter: any;
   seeingDrivers: boolean = true;
 
   constructor(
@@ -33,6 +35,17 @@ export class StoreComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {}
 
+  ngOnInit(): void {
+    this.currentAction = localStorage.getItem('currentAction');
+    this.getDrivers();
+    this.getScuderias();
+
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd)
+        this.moneyCounter.innerHTML = this.sesionService.getUser().money;
+    });
+  }
+  
   addPilotToCar(thing: any) {
     if (this.currentAction === 'replacing') {
       this.total = thing.price;
@@ -71,6 +84,10 @@ export class StoreComponent implements OnInit {
     if (this.team1.drivers.length < 5 && !this.team1.drivers.includes(thing)) {
       this.team1.drivers.push(thing);
       this.total += thing.price;
+      this.moneyCounter = document.getElementById('money');
+      this.moneyCounter.innerHTML =
+        parseInt(this.moneyCounter.innerHTML) - thing.price;
+
       this._snackBar.open('Piloto Agregado', '', {
         duration: 1000,
       });
@@ -93,17 +110,14 @@ export class StoreComponent implements OnInit {
   objIsEmpty(value: any) {
     return Object.keys(value).length === 0;
   }
-  ngOnInit(): void {
-    this.currentAction = localStorage.getItem('currentAction');
-    this.getDrivers();
-    this.getScuderias();
-  }
+
   openDrivers(): void {
     this.seeingDrivers = true;
   }
   openCars(): void {
     this.seeingDrivers = false;
   }
+
   getDrivers(): void {
     this.pilots.push;
     this.restApi.get_request('Drivers', null).subscribe((result: any[]) => {
@@ -161,6 +175,7 @@ export class StoreComponent implements OnInit {
 
     return hasEnoughMoney && haveFiveDrivers && haveAScudery;
   }
+
   pay(): void {
     const teamName = (document.getElementById('teamName') as HTMLInputElement)
       .value;
@@ -180,6 +195,15 @@ export class StoreComponent implements OnInit {
     }
   }
 
+  updateUserData() {
+    this.restApi
+      .get_request('Players/' + this.sesionService.getUser().username, null)
+      .subscribe((userData) => {
+        this.sesionService.setUser(JSON.stringify(userData));
+        this.router.navigateByUrl('pages/myPortal');
+      });
+  }
+
   submitPay(data: any) {
     this.restApi.post_request('PlayerTeams', data).subscribe((result) => {
       console.log(result);
@@ -187,8 +211,8 @@ export class StoreComponent implements OnInit {
         'Equipo creado',
         'El equipo fue creado con éxito'
       );
-      this.sesionService.getUserFromDb(this.sesionService.getUser().username);
-      this.router.navigateByUrl('pages/myPortal');
+
+      this.updateUserData();
     });
   }
 }

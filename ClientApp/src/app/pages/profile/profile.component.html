@@ -2,6 +2,17 @@
 
     <div class="teamsContainer">
 
+        <div class="nameContainer">
+            <div class="simpleText" style="font-size: clamp(13px, 2.5vw, 3vw);">
+                Nombre: {{user.name}}
+            </div>
+            <div class="smallMargin"></div>
+
+            <div class="simpleText" style="font-size: clamp(13px, 1.5vw, 3vw);">
+                Nombre de Usuario: {{user.username}}
+            </div>
+            <div class="smallMargin"></div>
+        </div>
 
         <div class="teamBox" *ngFor="let team of myteams">
             <div class="medMargin"></div>
@@ -44,9 +55,7 @@
                             <img class="flag" src={{driver.country}}>
                         </div>
 
-                        <div class="replaceHover" (click)="replaceComponent(driver)">
-                            <div class="simpleText" style="color: white; font-size:clamp(14px,1vw,2vw)">Reemplazar</div>
-                        </div>
+
 
                     </div>
 
@@ -75,27 +84,7 @@
 
 
 
-        <div class="teamBox" *ngIf="myteams.length<2">
 
-            <div class="bigMargin"></div>
-
-            <div class="smallCenterTeamBox">
-                <div class="medMargin"></div>
-
-                <div class="simpleText" style="color: white;">El equipo debe estar completo para poder participar en la
-                    liga
-                    pública</div>
-                <div class="medMargin"></div>
-
-                <div class="createButton" (click)="createNewTeam()">
-                    <div class="simpleText" style="color: white;">Crear Equipo</div>
-                </div>
-
-
-            </div>
-
-
-        </div>
 
 
         <div class="bigMargin"></div>
