@@ -32,6 +32,12 @@ namespace RestAPI_XF1Online.Profiles
                     opt => opt.MapFrom(src => DateTime.ParseExact(src.StartingTime, "h:mm tt", CultureInfo.InvariantCulture)))
                 .ForMember(x => x.FinishingTime,
                     opt => opt.MapFrom(src => DateTime.ParseExact(src.FinishingTime, "h:mm tt", CultureInfo.InvariantCulture)));
+
+            CreateMap<int, Race>()
+                .ForMember(x => x.Id,
+                    opt => opt.MapFrom(src => src));
+
+            CreateMap<Race, int>().ConvertUsing(x => x.Id);
         }
     }
 }

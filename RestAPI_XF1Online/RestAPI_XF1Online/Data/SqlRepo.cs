@@ -130,6 +130,14 @@ namespace RestAPI_XF1Online.Data
             _context.Races.RemoveRange(_context.Races);
         }
 
+        public void CreateRaceResult(IEnumerable<RaceResult> results)
+        {
+            _context.RaceResults.AddRange(results);
+
+            // ModifyPrices(result);
+            // ModifyTeamScores(result);
+        }
+
         public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
         {
             var teams = _context.PlayerTeams.Where(pt => pt.Player.Username == username).Include("Drivers").Include("Scuderia").ToList();

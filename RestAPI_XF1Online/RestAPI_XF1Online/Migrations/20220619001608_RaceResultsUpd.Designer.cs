@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220619001608_RaceResultsUpd")]
+    partial class RaceResultsUpd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,9 +289,6 @@ namespace RestAPI_XF1Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Carrera")
-                        .HasColumnType("int");
-
                     b.Property<string>("CodigoXFIA")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -335,6 +334,9 @@ namespace RestAPI_XF1Online.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SinCalificarCalificacion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -352,6 +354,8 @@ namespace RestAPI_XF1Online.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("RaceResults");
                 });
@@ -487,6 +491,17 @@ namespace RestAPI_XF1Online.Migrations
                         .HasForeignKey("ChampionshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RestAPI_XF1Online.Models.RaceResult", b =>
+                {
+                    b.HasOne("RestAPI_XF1Online.Models.Race", "Race")
+                        .WithMany()
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Race");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
