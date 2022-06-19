@@ -11,8 +11,8 @@ namespace RestAPI_XF1Online.DTOs
         [Required]
         public string Player { get; set; }
         [Required]
-        public int Scuderia { get; set; }
+        public string Scuderia { get; set; }
         [Required]
-        public ICollection<int> Drivers { get; set; }
+        public ICollection<string> Drivers { get; set; }
     }
 }

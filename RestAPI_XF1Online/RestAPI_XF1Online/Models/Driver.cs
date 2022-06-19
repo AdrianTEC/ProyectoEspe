@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestAPI_XF1Online.Models
 {
     public class Driver
     {
         [Key]
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string XFIA_Code { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Country { get; set; }
         [Required]
-        public int Price { get; set; }
+        public float Price { get; set; }
         public List<PlayerTeam> PlayerTeams { get; set; }
     }
 }

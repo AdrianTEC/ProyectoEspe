@@ -31,10 +31,10 @@ namespace RestAPI_XF1Online.Data
         void AuthPlayer(string username);
 
         IEnumerable<Scuderia> GetAllScuderias();
-        Scuderia GetScuderiaById(int id);
+        Scuderia GetScuderiaByXFIACode(string code);
 
         IEnumerable<Driver> GetAllDrivers();
-        Driver GetDriverById(int id);
+        Driver GetDriverByXFIACode(string code);
 
         IEnumerable<Ranking> GetCurrentPublicLeagueRanking();
 

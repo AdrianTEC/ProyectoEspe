@@ -10,8 +10,8 @@ namespace RestAPI_XF1Online.Profiles
         public ScuderiaProfile()
         {
             CreateMap<Scuderia, ScuderiaReadDto>();
-            CreateMap<int, Scuderia>()
-                .ForMember(x => x.Id,
+            CreateMap<string, Scuderia>()
+                .ForMember(x => x.XFIA_Code,
                     opt => opt.MapFrom(src => src));
         }
     }

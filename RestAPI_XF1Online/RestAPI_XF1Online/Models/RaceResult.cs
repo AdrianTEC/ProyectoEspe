@@ -7,11 +7,11 @@ namespace RestAPI_XF1Online.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int Carrera { get; set; }
+        public Race Carrera { get; set; }
         [Required]
-        public string CodigoXFIA { get; set; }
+        public Driver CodigoXFIA { get; set; }
         [Required]
-        public string Constructor { get; set; }
+        public Scuderia Constructor { get; set; }
         [Required]
         public string Nombre { get; set; }
         [Required]

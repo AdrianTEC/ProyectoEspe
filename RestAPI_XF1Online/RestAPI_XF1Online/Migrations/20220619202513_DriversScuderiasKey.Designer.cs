@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestAPI_XF1Online.Data;
 
@@ -11,9 +12,10 @@ using RestAPI_XF1Online.Data;
 namespace RestAPI_XF1Online.Migrations
 {
     [DbContext(typeof(XF1OnlineContext))]
-    partial class XF1OnlineContextModelSnapshot : ModelSnapshot
+    [Migration("20220619202513_DriversScuderiasKey")]
+    partial class DriversScuderiasKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,16 +287,16 @@ namespace RestAPI_XF1Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CarreraId")
+                    b.Property<int>("Carrera")
                         .HasColumnType("int");
 
-                    b.Property<string>("CodigoXFIAXFIA_Code")
+                    b.Property<string>("CodigoXFIA")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ConstructorXFIA_Code")
+                    b.Property<string>("Constructor")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescalificadoCalificacion")
                         .IsRequired()
@@ -350,12 +352,6 @@ namespace RestAPI_XF1Online.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarreraId");
-
-                    b.HasIndex("CodigoXFIAXFIA_Code");
-
-                    b.HasIndex("ConstructorXFIA_Code");
 
                     b.ToTable("RaceResults");
                 });
@@ -488,33 +484,6 @@ namespace RestAPI_XF1Online.Migrations
                         .HasForeignKey("ChampionshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("RestAPI_XF1Online.Models.RaceResult", b =>
-                {
-                    b.HasOne("RestAPI_XF1Online.Models.Race", "Carrera")
-                        .WithMany()
-                        .HasForeignKey("CarreraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestAPI_XF1Online.Models.Driver", "CodigoXFIA")
-                        .WithMany()
-                        .HasForeignKey("CodigoXFIAXFIA_Code")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RestAPI_XF1Online.Models.Scuderia", "Constructor")
-                        .WithMany()
-                        .HasForeignKey("ConstructorXFIA_Code")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Carrera");
-
-                    b.Navigation("CodigoXFIA");
-
-                    b.Navigation("Constructor");
                 });
 
             modelBuilder.Entity("RestAPI_XF1Online.Models.Ranking", b =>
