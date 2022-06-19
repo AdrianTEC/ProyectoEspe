@@ -23,7 +23,7 @@ namespace RestAPI_XF1Online.Controllers
 
         // GET: drivers/
         [HttpGet]
-        public ActionResult<IEnumerable<DriverReadDto>> GetChampionships()
+        public ActionResult<IEnumerable<DriverReadDto>> GetDrivers()
         {
             var drivers = _repository.GetAllDrivers();
             return Ok(_mapper.Map<IEnumerable<DriverReadDto>>(drivers));

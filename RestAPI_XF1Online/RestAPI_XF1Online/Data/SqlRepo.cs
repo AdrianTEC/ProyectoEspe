@@ -130,6 +130,14 @@ namespace RestAPI_XF1Online.Data
             _context.Races.RemoveRange(_context.Races);
         }
 
+        public void CreateRaceResult(IEnumerable<RaceResult> results)
+        {
+            _context.RaceResults.AddRange(results);
+
+            // ModifyPrices(result);
+            // ModifyTeamScores(result);
+        }
+
         public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
         {
             var teams = _context.PlayerTeams.Where(pt => pt.Player.Username == username).Include("Drivers").Include("Scuderia").ToList();
@@ -150,14 +158,14 @@ namespace RestAPI_XF1Online.Data
         public void CreatePlayerTeam(PlayerTeam playerTeam)
         {
             playerTeam.Player = GetPlayerByUsername(playerTeam.Player.Username);
-            playerTeam.Scuderia = GetScuderiaById(playerTeam.Scuderia.Id);
+            playerTeam.Scuderia = GetScuderiaByXFIACode(playerTeam.Scuderia.XFIA_Code);
             playerTeam.Player.Money -= playerTeam.Scuderia.Price;
             playerTeam.PrivateLeague = playerTeam.Player.PrivateLeague;
             var drivers = playerTeam.Drivers;
             playerTeam.Drivers = new List<Driver>();
             foreach(Driver driver in drivers)
             {
-                var driver1 = GetDriverById(driver.Id);
+                var driver1 = GetDriverByXFIACode(driver.XFIA_Code);
                 playerTeam.Drivers.Add(driver1);
                 playerTeam.Player.Money -= driver1.Price;
             }
@@ -186,13 +194,13 @@ namespace RestAPI_XF1Online.Data
             var newDrivers = new List<Driver>();
             foreach (Driver driver in newPlayerTeam.Drivers)
             {
-                var driverModel = GetDriverById(driver.Id);
+                var driverModel = GetDriverByXFIACode(driver.XFIA_Code);
                 playerTeam.Player.Money -= driverModel.Price;
                 newDrivers.Add(driverModel);
             }
             playerTeam.Drivers = newDrivers;
 
-            var scuderiaModel = GetScuderiaById(newPlayerTeam.Scuderia.Id);
+            var scuderiaModel = GetScuderiaByXFIACode(newPlayerTeam.Scuderia.XFIA_Code);
             playerTeam.Player.Money -= scuderiaModel.Price;
             playerTeam.Scuderia = scuderiaModel;
 
@@ -231,9 +239,9 @@ namespace RestAPI_XF1Online.Data
             _context.Players.Update(player);
         }
 
-        public Scuderia GetScuderiaById(int id)
+        public Scuderia GetScuderiaByXFIACode(string code)
         {
-            return _context.Scuderias.FirstOrDefault(pt => pt.Id == id);
+            return _context.Scuderias.FirstOrDefault(pt => pt.XFIA_Code == code);
         }
 
         public IEnumerable<Scuderia> GetAllScuderias()
@@ -241,9 +249,9 @@ namespace RestAPI_XF1Online.Data
             return _context.Scuderias.ToList();
         }
 
-        public Driver GetDriverById(int id)
+        public Driver GetDriverByXFIACode(string code)
         {
-            return _context.Drivers.FirstOrDefault(pt => pt.Id == id);
+            return _context.Drivers.FirstOrDefault(pt => pt.XFIA_Code == code);
         }
 
         public IEnumerable<Driver> GetAllDrivers()

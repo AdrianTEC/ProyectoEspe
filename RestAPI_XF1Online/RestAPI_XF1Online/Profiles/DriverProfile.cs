@@ -11,8 +11,8 @@ namespace RestAPI_XF1Online.Profiles
         {
             CreateMap<Driver, DriverReadDto>();
 
-            CreateMap<int, Driver>()
-                .ForMember(x => x.Id,
+            CreateMap<string, Driver>()
+                .ForMember(x => x.XFIA_Code,
                     opt => opt.MapFrom(src => src));
         }
     }

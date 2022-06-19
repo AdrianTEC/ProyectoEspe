@@ -21,7 +21,7 @@ namespace RestAPI_XF1Online.Models
         [Required]
         public string AgeRange { get; set; }
         [Required]
-        public int Money { get; set; }
+        public float Money { get; set; }
         [Required]
         public bool ConfirmedAccount { get; set; } 
         public PrivateLeague? PrivateLeague { get; set; }
