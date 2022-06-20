@@ -16,7 +16,7 @@ namespace RestAPI_XF1Online.DTOs
         [Required]
         public string Tipo { get; set; }
         [Required]
-        public int Precio { get; set; }
+        public float Precio { get; set; }
         [Required]
         public int PosicionCalificacion { get; set; }
         [Required]

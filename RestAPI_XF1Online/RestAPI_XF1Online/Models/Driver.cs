@@ -15,5 +15,6 @@ namespace RestAPI_XF1Online.Models
         [Required]
         public float Price { get; set; }
         public List<PlayerTeam> PlayerTeams { get; set; }
+        public int LastScore { get; set; }
     }
 }
