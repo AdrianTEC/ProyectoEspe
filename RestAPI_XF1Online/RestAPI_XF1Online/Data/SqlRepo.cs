@@ -129,6 +129,11 @@ namespace RestAPI_XF1Online.Data
         {
             _context.Races.RemoveRange(_context.Races);
         }
+        
+        public IEnumerable<RaceResult> GetRaceResultsByRaceId(int raceId)
+        {
+            return _context.RaceResults.Where(rr => rr.Carrera.Id == raceId).Include("Carrera").ToList();
+        }
 
         public void CreateRaceResult(IEnumerable<RaceResult> results)
         {

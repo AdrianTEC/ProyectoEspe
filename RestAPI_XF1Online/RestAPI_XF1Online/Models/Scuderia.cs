@@ -12,6 +12,6 @@ namespace RestAPI_XF1Online.Models
         public string Name { get; set; }
         [Required]
         public float Price { get; set; }
-        public int LastScore { get; set; }
+        public int? LastScore { get; set; }
     }
 }
