@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TopLeagueModalComponent } from './championship-control/top-league-modal/top-league-modal.component';
 import { ResultsComponent } from './results/results.component';
 import { MatTableModule } from '@angular/material/table';
+import { ResultsViewComponent } from './careers-control/results-view/results-view.component';
 @NgModule({
   declarations: [
     ChampionshipControlComponent,
@@ -30,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
     AddCareerModalComponent,
     TopLeagueModalComponent,
     ResultsComponent,
+    ResultsViewComponent,
   ],
   imports: [
     CommonModule,
