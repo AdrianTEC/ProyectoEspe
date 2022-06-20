@@ -52,7 +52,7 @@ namespace RestAPI_XF1Online.Controllers
                 _repository.CreatePlayer(playerModel);
                 _repository.SaveChanges();
 
-                // EmailService.SendConfirmationEmail(playerModel);
+                EmailService.SendConfirmationEmail(playerModel);
 
                 var playerReadDto = _mapper.Map<PlayerReadDto>(playerModel);
 

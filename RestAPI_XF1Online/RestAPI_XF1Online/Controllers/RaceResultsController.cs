@@ -21,6 +21,17 @@ namespace RestAPI_XF1Online.Controllers
             _mapper = mapper;
         }
 
+        // GET: /raceResults/{raceId}
+        [HttpGet("{raceId}", Name = "GetRaceResultsByRaceId")]
+        public ActionResult<RaceResultReadArray> GetRaceResultsByRaceId(int raceId)
+        {
+            var results = _repository.GetRaceResultsByRaceId(raceId);
+            var resultsDto = _mapper.Map<List<RaceResultReadDto>>(results);
+            var array = new RaceResultReadArray();
+            array.Data = resultsDto;
+            return Ok(array);
+        }
+
         // POST: /raceResults/
         [HttpPost]
         public ActionResult<RaceResultReadArray> CreateRaceResults(RaceResultCreateArray raceResultCreateArray)

@@ -129,17 +129,23 @@ namespace RestAPI_XF1Online.Data
         {
             _context.Races.RemoveRange(_context.Races);
         }
+        
+        public IEnumerable<RaceResult> GetRaceResultsByRaceId(int raceId)
+        {
+            return _context.RaceResults.Where(rr => rr.Carrera.Id == raceId).Include("Carrera").ToList();
+        }
 
         public void CreateRaceResult(IEnumerable<RaceResult> results)
         {
-            foreach(var result in results)
+            var driverFilter = results.Where(r => r.CodigoXFIA != r.Constructor);
+            foreach (var result in results)
             {
                 result.Carrera = GetRaceById(result.Carrera.Id);
             }
             _context.RaceResults.AddRange(results);
 
             ModifyPrices(results);
-            // ModifyTeamScores(result);
+            ModifyTeamScores(driverFilter);
         }
 
         private void ModifyPrices(IEnumerable<RaceResult> results)
@@ -158,7 +164,73 @@ namespace RestAPI_XF1Online.Data
             _context.Scuderias.UpdateRange(scuderias);
         }
 
+        private void ModifyTeamScores(IEnumerable<RaceResult> driverFilter)
+        {
+            CalculateScores(driverFilter);
 
+            var drivers = GetAllDrivers();
+            var scuderias = GetAllScuderias();
+            var rankings = GetCurrentPublicLeagueRanking();
+
+            foreach (var driver in drivers)
+            {
+                var filter = rankings.Where(r => r.PlayerTeam.Drivers.Contains(driver)).ToList();
+                foreach (var ranking in filter)
+                {
+                    ranking.Score += (int)driver.LastScore;
+                }
+            }
+
+            foreach (var scuderia in scuderias)
+            {
+                var filter = rankings.Where(r => r.PlayerTeam.Scuderia.XFIA_Code == scuderia.XFIA_Code).ToList();
+                foreach (var ranking in filter)
+                {
+                    ranking.Score += (int)scuderia.LastScore;
+                }
+            }
+
+            _context.Rankings.UpdateRange(rankings);
+        }
+
+        private void CalculateScores(IEnumerable<RaceResult> driverFilter)
+        {
+            var drivers = GetAllDrivers();
+            var scuderias = GetAllScuderias();
+
+            foreach (var scuderia in scuderias)
+            {
+                scuderia.LastScore = 0;
+            }
+
+            foreach (var result in driverFilter)
+            {
+                int score = 0;
+                // ------Qualifying-------
+                score += (result.Q1 == "Y") ? ScoreRules.Qualifying["Q1"] : 0;
+                score += (result.Q2 == "Y") ? ScoreRules.Qualifying["Q2"] : 0;
+                score += (result.Q3 == "Y") ? ScoreRules.Qualifying["Q3"] : 0;
+                score += (result.SinCalificarCalificacion == "Y") ? ScoreRules.Qualifying["NotClassified"] : 0;
+                score += (result.DescalificadoCalificacion == "Y") ? ScoreRules.Qualifying["Disquialification"] : 0;
+                if (result.PosicionCalificacion > 10)
+                    result.PosicionCalificacion = 0;
+                score += ScoreRules.QualifyingPositions[result.PosicionCalificacion];
+
+                // ---------Race----------
+                score += (result.SinCalificarCarrera == "N") ? ScoreRules.Race["Classified"] : ScoreRules.Race["NotClassified"];
+                score += (result.VueltaMasRapida == "Y") ? ScoreRules.Race["FastestLap"] : 0;
+                score += (result.DescalificadoCarrera == "Y") ? ScoreRules.Race["Disqualification"] : 0;
+                if (result.PosicionCalificacion > 10)
+                    result.PosicionCalificacion = 0;
+                score += ScoreRules.RacePositions[result.PosicionCalificacion];
+
+                drivers.Where(d => d.XFIA_Code == result.CodigoXFIA).FirstOrDefault().LastScore = score;
+                scuderias.Where(s => s.XFIA_Code == result.Constructor).FirstOrDefault().LastScore += score;
+            }
+
+            _context.Drivers.UpdateRange(drivers);
+            _context.Scuderias.UpdateRange(scuderias);
+        }
 
         public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
         {
@@ -285,7 +357,7 @@ namespace RestAPI_XF1Online.Data
         {
             var currentChampionship = GetActiveChampionship();
             var ranking = _context.Rankings.Where(r => r.Championship.Id == currentChampionship.Id).Include("PlayerTeam")
-                .Include("PlayerTeam.Player").ToList();
+                .Include("PlayerTeam.Player").Include("PlayerTeam.Drivers").Include("PlayerTeam.Scuderia").ToList();
             return ranking;
         }
 
@@ -409,6 +481,10 @@ namespace RestAPI_XF1Online.Data
         {
             var privateLeague = _context.PrivateLeagues.Where(pl => pl.Name == name)
                 .Include("Rankings").Include("Rankings.PlayerTeam").Include("Rankings.PlayerTeam.Player").FirstOrDefault();
+
+            if(privateLeague != null)
+                privateLeague.Rankings = (List<Ranking>) GetCurrentPublicLeagueRanking()
+                    .Where(r => r.PrivateLeague != null && r.PrivateLeague.Name == name).ToList();
             return privateLeague;
         }
 
