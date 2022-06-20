@@ -97,40 +97,59 @@ export class ResultsComponent implements OnInit {
           'Cambie el nombre de las cabeceras del excel a :  CodigoXFIA	Constructor	Nombre	Tipo	Precio	PosicionCalificacion	Q1	Q2	Q3	SinCalificarCalificacion	DescalificadoCalificacion	PosicionCarrera	VueltaMasRapida	GanoACompañeroEquipo	SinCalificarCarrera	DescalificadoCarrera'
         );
          */
-      const fixedResult = { data: jsonData[Object.keys(jsonData)[0]] };
+      const fixedResult = {
+        data: jsonData[Object.keys(jsonData)[0]],
+      };
 
       this.dataSource = fixedResult.data;
       for (const item of this.dataSource) {
         item.carrera = this.selectedRace.id;
       }
+      const formatedData: any = this.fixFormat(fixedResult);
+      console.log(formatedData);
 
-      console.log(this.dataSource);
-
-      this.restapi.post_request('RaceResults', this.dataSource).subscribe > ((response: any) => {console.log(response); });
+      this.restapi
+        .post_request('RaceResults', formatedData)
+        .subscribe((response: any) => {
+          console.log(response);
+        });
 
       return fixedResult;
     };
     reader.readAsBinaryString(file);
   }
 
-  x = {
-    CodigoXFIA: 'XFIA-P-1099',
-    Constructor: 'XFIA-C-0022',
-    Nombre: ' Max Verstappen',
-    Tipo: 'Piloto',
-    Precio: 30,
-    PosicionCalificacion: 3,
-    Q1: 'Y',
-    Q2: 'Y',
-    Q3: 'Y',
-    SinCalificarCalificacion: 'N',
-    DescalificadoCalificacion: 'N',
-    PosicionCarrera: 2,
-    VueltaMasRapida: 'N',
-    GanoACompaneroEquipo: 'Y',
-    SinCalificarCarrera: 'N',
-    DescalificadoCarrera: 'N',
-  };
+  fixFormat(data: any): any {
+    let response: any = { data: [] };
+    data.data.forEach((dataRow: any) => {
+      const x = {
+        carrera: dataRow.carrera,
+        codigoXFIA: dataRow.CodigoXFIA,
+        constructor: dataRow.Constructor,
+        nombre: dataRow.Nombre,
+        tipo: dataRow.Tipo,
+        precio: dataRow.Precio,
+        posicionCalificacion:
+          dataRow.PosicionCalificacion === 'N/A'
+            ? -1
+            : dataRow.PosicionCalificacion,
+        q1: dataRow.Q1,
+        q2: dataRow.Q2,
+        q3: dataRow.Q3,
+        sinCalificarCalificacion: dataRow.SinCalificarCalificacion,
+        descalificadoCalificacion: dataRow.DescalificadoCalificacion,
+        posicionCarrera:
+          dataRow.PosicionCarrera === 'N/A' ? -1 : dataRow.PosicionCarrera,
+        vueltaMasRapida: dataRow.VueltaMasRapida,
+        ganoACompaneroEquipo: dataRow.GanoACompaneroEquipo,
+        sinCalificarCarrera: dataRow.SinCalificarCarrera,
+        descalificadoCarrera: dataRow.DescalificadoCarrera,
+      };
+      response.data.push(x);
+    });
+
+    return response;
+  }
 
   renameFile(originalFile: any, newName: string) {
     return new File([originalFile], newName, {
