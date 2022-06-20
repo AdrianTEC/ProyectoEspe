@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RestAPI_XF1Online.Models;
 using System.Diagnostics;
 
@@ -132,6 +132,12 @@ namespace RestAPI_XF1Online.Data
 
         public void CreateRaceResult(IEnumerable<RaceResult> results)
         {
+            foreach(var result in results)
+            {
+                result.Carrera = GetRaceById(result.Carrera.Id);
+                result.CodigoXFIA = GetDriverByXFIACode(result.CodigoXFIA.XFIA_Code);
+                result.Constructor = GetScuderiaByXFIACode(result.Constructor.XFIA_Code);
+            }
             _context.RaceResults.AddRange(results);
 
             // ModifyPrices(result);

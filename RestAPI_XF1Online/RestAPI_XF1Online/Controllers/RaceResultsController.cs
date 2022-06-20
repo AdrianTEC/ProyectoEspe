@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI_XF1Online.Data;
 using RestAPI_XF1Online.DTOs;
 using RestAPI_XF1Online.Models;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace RestAPI_XF1Online.Controllers
 {
@@ -21,7 +23,7 @@ namespace RestAPI_XF1Online.Controllers
 
         // POST: api/raceResults/
         [HttpPost]
-        public ActionResult<IEnumerable<RaceResultReadDto>> CreateRace(IEnumerable<RaceResultCreateDto> raceResultCreateDtos)
+        public ActionResult<IEnumerable<RaceResultReadDto>> CreateRaceResults(IEnumerable<RaceResultCreateDto> raceResultCreateDtos)
         {
             var raceResultsModel = _mapper.Map<IEnumerable<RaceResult>>(raceResultCreateDtos);
             _repository.CreateRaceResult(raceResultsModel);

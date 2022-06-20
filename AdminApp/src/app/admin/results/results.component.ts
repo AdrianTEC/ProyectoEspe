@@ -50,8 +50,7 @@ export class ResultsComponent implements OnInit {
   }
 
   uploadFile(): void {
-    const x = {};
-    this.restapi.post_request('', x).subscribe > ((value: any) => {});
+    this.fileToJson(this.file);
   }
 
   selectRace(race: any): void {
@@ -71,7 +70,6 @@ export class ResultsComponent implements OnInit {
         return;
       }
       this.file = file;
-      const jsonData = this.fileToJson(file);
     }
   }
   /**
@@ -100,8 +98,15 @@ export class ResultsComponent implements OnInit {
         );
          */
       const fixedResult = { data: jsonData[Object.keys(jsonData)[0]] };
-      console.log(fixedResult);
+
       this.dataSource = fixedResult.data;
+      for (const item of this.dataSource) {
+        item.carrera = this.selectedRace.id;
+      }
+
+      console.log(this.dataSource);
+
+      this.restapi.post_request('RaceResults', this.dataSource).subscribe > ((response: any) => {console.log(response); });
 
       return fixedResult;
     };

@@ -37,13 +37,13 @@ export class Country {
 }
 
 export class Driver {
-  id: number = 0;
+  xfiA_Code: string = '';
   name: string = '';
   country: string = '';
   price: string = '';
 }
 export class Scuderia {
-  id: number = 0;
+  xfiA_Code: string = '';
   name: string = '';
   price: string = '';
 }

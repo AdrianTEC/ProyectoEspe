@@ -78,7 +78,10 @@ export class MyPortalComponent implements OnInit {
   editTeam(team: any): void {
     localStorage.setItem('currentAction', 'replacing');
 
+    console.log(team);
+
     const teamData = {
+      id: team.id,
       drivers: team.drivers,
       scudery: team.scuderia,
     };

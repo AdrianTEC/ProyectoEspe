@@ -167,16 +167,19 @@ export class StoreComponent implements OnInit {
     const teamName = (document.getElementById('teamName') as HTMLInputElement)
       .value;
     const drivers = this.shoppingCarTeam.drivers.map((driver: any) => {
-      return driver.id;
+      return driver.xfiA_Code;
     });
 
     if (this.checkPayment(teamName, drivers)) {
       const survey = {
+        id: this.shoppingCarTeam.id,
         name: teamName,
         player: this.sesionService.getUser().username,
-        scuderia: this.shoppingCarTeam.scudery.id,
+        scuderia: this.shoppingCarTeam.scudery.xfiA_Code,
         drivers: drivers,
       };
+
+      console.log(survey);
 
       this.submitPay(survey);
     }
@@ -193,7 +196,7 @@ export class StoreComponent implements OnInit {
 
   submitPay(data: any) {
     if (this.currentAction === 'replacing') {
-      this.restApi.post_request('XXXXX', data).subscribe((result) => {
+      this.restApi.put_request('PlayerTeams', data).subscribe((result) => {
         console.log(result);
         this.swalService.showSuccess(
           'Equipo Modificado',
