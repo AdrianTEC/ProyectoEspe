@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using RestAPI_XF1Online.Data;
 using RestAPI_XF1Online.DTOs;
@@ -21,17 +21,23 @@ namespace RestAPI_XF1Online.Controllers
             _mapper = mapper;
         }
 
-        // POST: api/raceResults/
+        // POST: /raceResults/
         [HttpPost]
-        public ActionResult<IEnumerable<RaceResultReadDto>> CreateRaceResults(IEnumerable<RaceResultCreateDto> raceResultCreateDtos)
+        public ActionResult<RaceResultReadArray> CreateRaceResults(RaceResultCreateArray raceResultCreateArray)
         {
-            var raceResultsModel = _mapper.Map<IEnumerable<RaceResult>>(raceResultCreateDtos);
+
+            var raceResultCreateDto = raceResultCreateArray.Data;
+
+            var raceResultsModel = _mapper.Map<IEnumerable<RaceResult>>(raceResultCreateDto);
             _repository.CreateRaceResult(raceResultsModel);
             _repository.SaveChanges();
 
             var raceResultReadDto = _mapper.Map<IEnumerable<RaceResultReadDto>>(raceResultsModel);
+            var array = new RaceResultReadArray();
+            array.Data = new List<RaceResultReadDto>(raceResultReadDto);
 
-            return Ok(raceResultReadDto);
+
+            return Ok(array);
         }
     }
 }

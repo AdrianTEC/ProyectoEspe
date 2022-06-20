@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RestAPI_XF1Online.Models;
 using System.Diagnostics;
 
@@ -135,14 +135,30 @@ namespace RestAPI_XF1Online.Data
             foreach(var result in results)
             {
                 result.Carrera = GetRaceById(result.Carrera.Id);
-                result.CodigoXFIA = GetDriverByXFIACode(result.CodigoXFIA.XFIA_Code);
-                result.Constructor = GetScuderiaByXFIACode(result.Constructor.XFIA_Code);
             }
             _context.RaceResults.AddRange(results);
 
-            // ModifyPrices(result);
+            ModifyPrices(results);
             // ModifyTeamScores(result);
         }
+
+        private void ModifyPrices(IEnumerable<RaceResult> results)
+        {
+            var drivers = GetAllDrivers();
+            var scuderias = GetAllScuderias();
+            foreach (var result in results)
+            {
+                if (result.CodigoXFIA == result.Constructor)
+                    scuderias.FirstOrDefault(s => s.XFIA_Code == result.Constructor).Price = result.Precio;
+                else
+                    drivers.FirstOrDefault(d => d.XFIA_Code == result.CodigoXFIA).Price = result.Precio;
+            }
+
+            _context.Drivers.UpdateRange(drivers);
+            _context.Scuderias.UpdateRange(scuderias);
+        }
+
+
 
         public IEnumerable<PlayerTeam> GetPlayerTeamsByUsername(string username)
         {

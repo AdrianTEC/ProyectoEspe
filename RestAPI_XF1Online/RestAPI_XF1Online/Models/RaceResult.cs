@@ -9,15 +9,15 @@ namespace RestAPI_XF1Online.Models
         [Required]
         public Race Carrera { get; set; }
         [Required]
-        public Driver CodigoXFIA { get; set; }
+        public string CodigoXFIA { get; set; }
         [Required]
-        public Scuderia Constructor { get; set; }
+        public string Constructor { get; set; }
         [Required]
         public string Nombre { get; set; }
         [Required]
         public string Tipo { get; set; }
         [Required]
-        public int Precio { get; set; }
+        public float Precio { get; set; }
         [Required]
         public int PosicionCalificacion { get; set; }
         [Required]

@@ -8,7 +8,7 @@
         public string Constructor { get; set; }
         public string Nombre { get; set; }
         public string Tipo { get; set; }
-        public int Precio { get; set; }
+        public float Precio { get; set; }
         public int PosicionCalificacion { get; set; }
         public string Q1 { get; set; }
         public string Q2 { get; set; }
