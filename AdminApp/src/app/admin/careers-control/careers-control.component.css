@@ -18,7 +18,10 @@
 .objectContainer{
     overflow: scroll;
     max-height: 75%;
-
+}
+.objectContainer:hover{
+    cursor: pointer;
+    filter: invert(0.3);
 }
 .normalText{
     color: var(--Letters);

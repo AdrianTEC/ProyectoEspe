@@ -5,6 +5,7 @@ import { Championship, Race, RaceAux } from 'src/app/models/models';
 import * as moment from 'moment';
 import { AddCareerModalComponent } from './add-career-modal/add-career-modal.component';
 import { Observable, Subscription } from 'rxjs';
+import { ResultsViewComponent } from './results-view/results-view.component';
 
 @Component({
   selector: 'app-careers-control',
@@ -70,5 +71,13 @@ export class CareersControlComponent implements OnInit {
     if (todayDate < bDate) return '1';
     if (todayDate > eDate) return '2';
     return '0';
+  }
+
+  openResults(race: any): void {
+    const dialogRef = this.dialog.open(ResultsViewComponent, {
+      data: race,
+      height: '90%',
+      width: '80%',
+    });
   }
 }

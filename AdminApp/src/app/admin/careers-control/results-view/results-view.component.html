@@ -1,0 +1,45 @@
+<div class="tablevisualization">
+
+    <div class="tableRow" style="color: black;">
+
+        <div class="tableCell text" style="max-width: 80px; min-width:80px"> CodigoXFIA </div>
+        <div class="tableCell text" style="max-width: 80px; min-width:80px"> Constructor </div>
+        <div class="tableCell text" style="max-width: 80px; min-width:80px"> Nombre </div>
+        <div class="tableCell text"> Tipo </div>
+        <div class="tableCell text"> Precio </div>
+        <div class="tableCell text"> Posicion Calificacion </div>
+        <div class="tableCell text"> Q1 </div>
+        <div class="tableCell text"> Q2 </div>
+        <div class="tableCell text"> Q3 </div>
+        <div class="tableCell text"> SinCalificar Calificacion </div>
+        <div class="tableCell text"> Descalificado Calificacion </div>
+        <div class="tableCell text"> Posicion </div>
+        <div class="tableCell text"> Vuelta Mas Rapida </div>
+        <div class="tableCell text"> Gan oA Companero </div>
+        <div class="tableCell text"> SinCalificar </div>
+        <div class="tableCell text"> Descalificado </div>
+    </div>
+
+    <div class="tableRow" style="color: black;" *ngFor="let data of dataSource">
+
+        <div class="tableCell text" style="max-width: 80px; min-width:80px">{{data.codigoXFIA}} </div>
+        <div class="tableCell text" style="max-width: 80px; min-width:80px">{{data.constructor}} </div>
+        <div class="tableCell text" style="max-width: 80px; min-width:80px">{{data.nombre}} </div>
+        <div class="tableCell text">{{data.tipo}} </div>
+        <div class="tableCell text">{{data.precio}} </div>
+        <div class="tableCell text">{{data.posicionCalificacion}} </div>
+        <div class="tableCell text">{{data.q1}} </div>
+        <div class="tableCell text">{{data.q2}} </div>
+        <div class="tableCell text">{{data.q3}} </div>
+        <div class="tableCell text">{{data.sinCalificarCalificacion}} </div>
+        <div class="tableCell text">{{data.descalificadoCalificacion}} </div>
+        <div class="tableCell text">{{data.posicionCarrera}} </div>
+        <div class="tableCell text">{{data.vueltaMasRapida}} </div>
+        <div class="tableCell text">{{data.ganoACompaneroEquipo}} </div>
+        <div class="tableCell text">{{data.sinCalificarCarrera}} </div>
+        <div class="tableCell text">{{data.descalificadoCarrera}} </div>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,17 @@
+.tablevisualization{
+    overflow: scroll;
+    width: 100%;
+}
+.tableRow{
+    display: flex;
+    justify-content: center;
+}   
+
+.tableCell{
+    overflow:hidden;
+    max-width: 40px;
+    min-width: 40px;
+    font-size: clamp(9px,0.5vw,1vw);
+    white-space: nowrap;
+    margin-right: 5px;
+}

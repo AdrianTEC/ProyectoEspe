@@ -28,7 +28,7 @@
                 <div class="headerText" style="width: 10%;">Estado </div>
             </div>
             <div class="objectContainer">
-                <div class="objectHorizontal" *ngFor="let c of races">
+                <div class="objectHorizontal" *ngFor="let c of races" (click)="openResults(c)">
                     <div class="normalText" style="width: 10%;  padding-right:10px">{{c.name}} </div>
                     <div class="normalText" style="width: 10%;">{{c.country}}</div>
                     <div class="normalText" style="width: 20%;">{{c.trackName}} </div>

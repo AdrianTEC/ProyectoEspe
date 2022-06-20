@@ -14,7 +14,7 @@ export class ResultsComponent implements OnInit {
   file: any = { name: null };
 
   dataSource: any[] = [];
-
+  formatedData: any;
   displayedColumns: string[] = [
     'CodigoXFIA',
     'Constructor',
@@ -50,13 +50,23 @@ export class ResultsComponent implements OnInit {
   }
 
   uploadFile(): void {
-    this.fileToJson(this.file);
+    this.restapi
+      .post_request('RaceResults', this.formatedData)
+      .subscribe((response: any) => {
+        console.log(response);
+
+        this.swal.showSuccess(
+          'Cambios aplicados con éxito',
+          'Los cambios se han aplicado'
+        );
+      });
   }
 
   selectRace(race: any): void {
     this.selectedRace = race;
     console.log(race);
   }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
@@ -70,6 +80,7 @@ export class ResultsComponent implements OnInit {
         return;
       }
       this.file = file;
+      this.fileToJson(this.file);
     }
   }
   /**
@@ -105,14 +116,7 @@ export class ResultsComponent implements OnInit {
       for (const item of this.dataSource) {
         item.carrera = this.selectedRace.id;
       }
-      const formatedData: any = this.fixFormat(fixedResult);
-      console.log(formatedData);
-
-      this.restapi
-        .post_request('RaceResults', formatedData)
-        .subscribe((response: any) => {
-          console.log(response);
-        });
+      this.formatedData = this.fixFormat(fixedResult);
 
       return fixedResult;
     };
